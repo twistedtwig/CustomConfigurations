@@ -1,8 +1,6 @@
 Custom Configurations:
 
-Allows the application to simplify the use of configuration settings.  For example if the app has multiple clients settings to be recorded
-a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the 
-configuration hooking up in the background for you.
+Allows the application to simplify the use of configuration settings.  For example if the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.
 
 Here is an example configuration file:
 
