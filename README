@@ -54,3 +54,4 @@ string myVal = Configloader["keya"];
 
 -------------------------------------------------------------
 
+The console application "ExampleApp" shows the different ways the customConfiguration application can be used.
