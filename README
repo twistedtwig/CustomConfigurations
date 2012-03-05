@@ -24,10 +24,11 @@ Here is an example configuration file:
           <ValueItem key="key6" value="0.6" />        
       </ConfigurationGroup>
 	  <ConfigurationGroup name="client2">
-        <ValueItems>
-          <ValueItem key="keya" value="abc" />          
-          <ValueItem key="key2" value="123" />        
-      </ConfigurationGroup>
+          <ValueItems>
+            <ValueItem key="keya" value="abc" />
+            <ValueItem key="key2" value="123" />
+          </ValueItems>
+        </ConfigurationGroup>
       </Configs>
     </mysection>
   </myCustomGroup>
@@ -50,4 +51,6 @@ CustomConfigurations.Config Configloader = new CustomConfigurations.Config("clie
 To access a value it would use the index of the key:
 
 string myVal = Configloader["keya"];
+
+-------------------------------------------------------------
 
