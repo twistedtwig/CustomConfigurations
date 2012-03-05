@@ -1,1 +1,55 @@
 Custom Configurations:
+
+Allows the application to simplify the use of configuration settings.  For example if the app has multiple clients settings to be recorded
+a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the 
+configuration hooking up in the background for you.
+
+Here is an example configuration file:
+
+<configuration>
+  <configSections>
+    <section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+    <sectionGroup name="myCustomGroup">
+      <section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+    </sectionGroup>
+  </configSections>
+
+  <myCustomGroup>
+    <mysection>
+      <Configs>
+      <ConfigurationGroup name="client1">
+        <ValueItems>
+          <ValueItem key="key2" value="value2" />
+          <ValueItem key="key3" value="value3" />
+          <ValueItem key="key4" value="value4" />
+          <ValueItem key="key5" value="7" />
+          <ValueItem key="key6" value="0.6" />        
+      </ConfigurationGroup>
+	  <ConfigurationGroup name="client2">
+        <ValueItems>
+          <ValueItem key="keya" value="abc" />          
+          <ValueItem key="key2" value="123" />        
+      </ConfigurationGroup>
+      </Configs>
+    </mysection>
+  </myCustomGroup>
+
+  <testsection2>
+    <Configs>
+      <ConfigurationGroup name="clienta">
+        <ValueItems>
+          <ValueItem key="key2" value="valueabc" />          
+        </ValueItems>       
+      </ConfigurationGroup>
+    </Configs>
+  </testsection2>
+</configuration>
+
+If the app wanted to read "client2"'s configuration it could do the following:
+
+CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
+
+To access a value it would use the index of the key:
+
+string myVal = Configloader["keya"];
+
