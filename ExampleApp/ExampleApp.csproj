@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoadingByProvidingSectionNameOnly.cs" />
+    <Compile Include="LoadingMultipleConfigSections.cs" />
+    <Compile Include="LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLoadingOfConfiguration.cs" />

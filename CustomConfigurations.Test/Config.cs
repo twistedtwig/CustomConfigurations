@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace CustomConfigurations.Test
@@ -6,89 +6,59 @@ namespace CustomConfigurations.Test
     [TestFixture]
     public class Config
     {
-        private const int TotalNumberOfValuePairs = 5;
-        private CustomConfigurations.Config Configloader = null;
+        private CustomConfigurations.Config Configloader;
 
         [SetUp]
         public void Init()
-        {           
-            Configloader = new CustomConfigurations.Config("client1");
+        {
+            Configloader = new CustomConfigurations.Config("myCustomGroup/mysection");
         }
 
         [Test]
         public void TestCanLoadConfigurationWithNoConfigurationPathGiven()
         {
-            Configloader = new CustomConfigurations.Config("client1");
+            Configloader = new CustomConfigurations.Config();
             Assert.IsNotNull(Configloader);
-            Assert.AreEqual(TotalNumberOfValuePairs, Configloader.Count);
+            Assert.AreEqual(2, Configloader.Count);
         }
 
         [Test]
         public void TestCanLoadConfigurationWithOnlySectionGiven()
         {
-            Configloader = new CustomConfigurations.Config("testsection2", string.Empty);
+            Configloader = new CustomConfigurations.Config("testsection2");
             Assert.IsNotNull(Configloader);
-            Assert.AreEqual(1, Configloader.Count);
+            Assert.AreEqual(2, Configloader.Count);
         }
-
-        [Test]
-        public void TestCanDetermineSectionWithoutSectionGroup()
-        {
-            Configloader = new CustomConfigurations.Config();
-            Assert.IsNotNull(Configloader);
-            Assert.IsTrue(Configloader.ContainsKey("key2"));
-            Assert.AreEqual(1, Configloader.Count);
-            Assert.AreEqual("valueabc", Configloader["key2"]);
-        }
-
+        
         [Test]
         public void TestGivenAnAppPathCanConfigLoadAppSettings()
         {
             Assert.IsNotNull(Configloader);            
-            Assert.AreEqual(TotalNumberOfValuePairs, Configloader.Count);
-        }
-
-        [Test]
-        public void TestThatGivenAValidKeyItemWillValueWillBeReturned()
-        {
-            Assert.AreEqual("value4", Configloader["key4"]);
-        }
-
-        [Test]
-        public void TestThatGivenAnINValidKeyANullObjectWillbeReturned()
-        {
-            Assert.IsNull(Configloader["keyXYZ"]);
-        }
-
-        [Test]
-        public void TestGenericCastingOfValueToTypes()
-        {
-            bool result = false;
-            int myInt = Configloader.TryParse<int>("key5", out result);
-            Assert.IsNotNull(myInt);
-            Assert.AreEqual(7, myInt);
-            Assert.IsTrue(result);
-
-            result = false;
-            float myfloat = Configloader.TryParse<float>("key6", out result);
-            Assert.IsNotNull(myfloat);
-            Assert.AreEqual(0.6f, myfloat);
-            Assert.IsTrue(result);
-        }
-
-        [Test]
-        public void TestGenericCastingOfInValidKeyReturnsNull()
-        {
-            bool result = true;
-            int myInt = Configloader.TryParse<int>("keyXYZ", out result);
-            Assert.IsFalse(result);
-        }
+            Assert.AreEqual(1, Configloader.Count);
+        }       
 
         [Test]
         public void TestContainsKey()
         {
-            Assert.IsTrue(Configloader.ContainsKey("key2"));
-            Assert.IsFalse(Configloader.ContainsKey("keyXYZ"));
+            Assert.IsTrue(Configloader.ContainsKey("client1"));
+            Assert.IsFalse(Configloader.ContainsKey("clientXYZ"));
+        }
+
+        [Test]
+        public void TestCanGetSection()
+        {
+            Assert.IsNotNull(Configloader.GetSection("client1"));
+            Assert.IsNull(Configloader.GetSection("client1XYZ"));
+        }
+
+        [Test]
+        public void TestCanGetAllSectionNames()
+        {
+            Configloader = new CustomConfigurations.Config("testsection2");
+            Assert.IsNotNull(Configloader);           
+
+            Assert.Contains("clienta", Configloader.SectionNames.ToArray());
+            Assert.Contains("clientb", Configloader.SectionNames.ToArray());
         }
     }
 }

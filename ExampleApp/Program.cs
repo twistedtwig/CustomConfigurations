@@ -7,7 +7,9 @@ namespace ExampleApp
         static void Main(string[] args)
         {
             SimpleLoadingOfConfiguration slc = new SimpleLoadingOfConfiguration();
-
+            LoadingOfConfigurationByAllowingAppToDetermineConfigPath lcadc = new LoadingOfConfigurationByAllowingAppToDetermineConfigPath();
+            LoadingByProvidingSectionNameOnly lpso = new LoadingByProvidingSectionNameOnly();
+            LoadingMultipleConfigSections lmc = new LoadingMultipleConfigSections();
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();

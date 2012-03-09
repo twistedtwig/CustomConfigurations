@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="ConfigSection.cs" />
     <Compile Include="ConfigurationGroup.cs" />
     <Compile Include="ConfigurationSectionLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
