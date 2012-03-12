@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace CustomConfigurations.Test
 {
@@ -14,6 +16,12 @@ namespace CustomConfigurations.Test
             ConfigLoader = new CustomConfigurations.Config("testsection2");
             Section = ConfigLoader.GetSection("clienta");
             Assert.IsNotNull(Section);
+        }
+
+        [Test]
+        public void TestTValidNameIsReturnedForSectionGroup()
+        {
+            Assert.AreEqual("clienta", Section.Name);            
         }
 
         [Test]
@@ -63,6 +71,63 @@ namespace CustomConfigurations.Test
         {
             Assert.IsTrue(Section.ContainsKey("key2"));
             Assert.IsFalse(Section.ContainsKey("keyXYZ"));
+        }
+
+        [Test]
+        public void TestReturningValuesAsDictionaryWorks()
+        {
+            ConfigLoader = new CustomConfigurations.Config("myCustomGroup/mysection");
+            Section = ConfigLoader.GetSection("client1");
+
+            IDictionary<string, string> dictionary = Section.ValuesAsDictionary;
+            Assert.IsNotNull(dictionary);
+            Assert.AreEqual(5, dictionary.Count);
+
+            Assert.AreEqual("value2", dictionary["key2"]);
+            Assert.AreEqual("value4", dictionary["key4"]);         
+            Assert.AreEqual("0.6", dictionary["key6"]);         
+        }
+
+
+        /* test the collections section */
+
+        [Test]
+        public void TestContainsInnerCollection()
+        {
+            Assert.IsFalse(Section.ContainsSubCollections);
+
+            //load the one that has collections
+            ConfigLoader = new CustomConfigurations.Config("myCustomGroup/mysection");
+            Section = ConfigLoader.GetSection("client1");
+
+            Assert.IsTrue(Section.ContainsSubCollections);
+        }
+
+        [Test]
+        public void TestParentLinksWork()
+        {
+            ConfigLoader = new CustomConfigurations.Config("myCustomGroup/mysection");
+            Section = ConfigLoader.GetSection("client1");
+            Assert.IsNotNull(Section);
+
+            Assert.IsNull(Section.Parent);
+
+            CustomConfigurations.ConfigSection childSection = Section.Collections.GetCollection("col2");
+            Assert.IsNotNull(childSection);
+            Assert.AreEqual(Section, childSection.Parent);
+        }
+
+        [Test]
+        public void TestIsChildLink()
+        {
+            ConfigLoader = new CustomConfigurations.Config("myCustomGroup/mysection");
+            Section = ConfigLoader.GetSection("client1");
+            Assert.IsNotNull(Section);
+            Assert.IsFalse(Section.IsChild);
+
+            CustomConfigurations.ConfigSection childSection = Section.Collections.GetCollection("col2");
+            Assert.IsNotNull(childSection);
+            Assert.IsTrue(childSection.IsChild);
         }
     }
 }

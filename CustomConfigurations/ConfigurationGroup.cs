@@ -63,5 +63,11 @@ namespace CustomConfigurations
             get { return this["ValueItems"] as ValueItemElementCollection; }
         }
 
+        [ConfigurationProperty("Collections", IsRequired = false)]
+        public CollectionsGroupCollection InnerCollections
+        {
+            get { return this["Collections"] as CollectionsGroupCollection; }
+        }
+
     }
 }

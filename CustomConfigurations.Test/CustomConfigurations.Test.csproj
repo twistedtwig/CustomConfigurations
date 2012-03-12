@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections.cs" />
+    <Compile Include="CollectionsGroup.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigSection.cs" />
     <Compile Include="ConfigurationSectionLoader.cs" />

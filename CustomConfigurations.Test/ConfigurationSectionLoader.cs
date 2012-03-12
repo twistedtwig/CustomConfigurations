@@ -20,6 +20,7 @@ namespace CustomConfigurations.Test
             Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
             ConfigurationGroupElement configGroup = ConfigurationLoader.ConfigGroups["client1"];
             Assert.IsNotNull(configGroup);
+            Assert.AreEqual("client1", configGroup.Name);
             Assert.AreEqual(5, configGroup.ValueItemCollection.Count);
 
             ValueItemElement item2 = configGroup.ValueItemCollection["key2"];

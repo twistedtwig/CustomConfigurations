@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace CustomConfigurations
@@ -6,12 +7,34 @@ namespace CustomConfigurations
     public class ConfigSection
     {
         private ConfigurationGroupElement ConfigElement;
+        private IDictionary<string, string> valuesAsDictionary = new Dictionary<string, string>();
+        private ConfigSection ParentElement;
 
+        internal ConfigSection(ConfigurationGroupElement configElement) : this(configElement, null) { }
 
-        internal ConfigSection(ConfigurationGroupElement configElement)
+        internal ConfigSection(ConfigurationGroupElement configElement, ConfigSection parent)
         {
             ConfigElement = configElement;
+            foreach (ValueItemElement element in configElement.ValueItemCollection)
+            {
+                //mirroring the behavour of the configurationGroupElement stuff that will just return the last item even if dups keys used.
+                if (!valuesAsDictionary.ContainsKey(element.Key))
+                {
+                    valuesAsDictionary.Add(element.Key, element.Value);
+                }
+            }
+
+            ParentElement = parent;
         }
+
+        /// <summary>
+        /// Returns the name attribute of this config group section.
+        /// </summary>
+        public string Name
+        {
+            get { return ConfigElement.Name; }
+        }
+
         /// <summary>
         /// Returns the number of values found for that config group
         /// </summary>
@@ -40,6 +63,60 @@ namespace CustomConfigurations
                 return item != null ? item.Value : null;
             }
         }
+
+        /// <summary>
+        /// Returns all the values as a dictionary.
+        /// </summary>
+        public IDictionary<string, string> ValuesAsDictionary
+        {
+            get { return valuesAsDictionary; }
+        }
+
+        /// <summary>
+        /// determines if the collection had any inner 'Collections' defined in the configuration.
+        /// </summary>
+        public bool ContainsSubCollections
+        {
+            get { return ConfigElement.InnerCollections != null && ConfigElement.InnerCollections.Count > 0; }
+        }
+
+        //figure out how to access inner collections and specify a single key
+
+        private CollectionsGroup collections;
+        /// <summary>
+        /// returns the inner collections if there are any, otherwise returns null.
+        /// </summary>
+        public CollectionsGroup Collections
+        {
+            get
+            {
+                if (collections == null && ContainsSubCollections)
+                {
+                    collections = new CollectionsGroup(ConfigElement.InnerCollections, this);
+                }
+
+                return collections;
+            }
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// returns the parent object in the collection, will return null at the top level, (ConfigurationGroup).
+        /// </summary>
+        public ConfigSection Parent
+        {
+            get { return ParentElement; }
+        }
+
+        /// <summary>
+        /// Determines if this ConfigSection is a child of another section.
+        /// </summary>
+        public bool IsChild { get { return Parent != null; } }
 
         /// <summary>
         /// Tries to parse the value for the given key and return the type converted into the generic Type provided.

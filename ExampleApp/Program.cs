@@ -10,6 +10,7 @@ namespace ExampleApp
             LoadingOfConfigurationByAllowingAppToDetermineConfigPath lcadc = new LoadingOfConfigurationByAllowingAppToDetermineConfigPath();
             LoadingByProvidingSectionNameOnly lpso = new LoadingByProvidingSectionNameOnly();
             LoadingMultipleConfigSections lmc = new LoadingMultipleConfigSections();
+            UsingInnerCollections uic = new UsingInnerCollections();
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();

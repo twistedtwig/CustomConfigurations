@@ -181,7 +181,7 @@ namespace CustomConfigurations
                     ConfigSectionNames.Add(configGroup.Name);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
