@@ -57,9 +57,3 @@ string myVal = Configloader["keya"];
 The console application "ExampleApp" shows the different ways the customConfiguration application can be used.
 
 -------------------------------------------------------------
-
-TODO / Features to come:
-
-- Will be adding collections within a configurationGroup, so there can be a bit more complex data within a single configurationGroup.
-- Want to remove some of the verbosity of the hierarchy, seems a bit over the top at the moment but not sure how yet.
-- Will be adding more examples and commenting them in far more detail.
