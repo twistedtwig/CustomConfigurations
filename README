@@ -57,3 +57,5 @@ string myVal = Configloader["keya"];
 The console application "ExampleApp" shows the different ways the customConfiguration application can be used.
 
 -------------------------------------------------------------
+
+N.B. all config sections are case sensitive, be careful how you write the xml and using the selectors.
