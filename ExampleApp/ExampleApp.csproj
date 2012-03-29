@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoadingAConfigFileThatIsNotTheDefaultConfig.cs" />
     <Compile Include="LoadingByProvidingSectionNameOnly.cs" />
     <Compile Include="LoadingMultipleConfigSections.cs" />
     <Compile Include="LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs" />

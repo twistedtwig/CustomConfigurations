@@ -11,6 +11,7 @@ namespace ExampleApp
             LoadingByProvidingSectionNameOnly lpso = new LoadingByProvidingSectionNameOnly();
             LoadingMultipleConfigSections lmc = new LoadingMultipleConfigSections();
             UsingInnerCollections uic = new UsingInnerCollections();
+            LoadingAConfigFileThatIsNotTheDefaultConfig lcf = new LoadingAConfigFileThatIsNotTheDefaultConfig();
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();
