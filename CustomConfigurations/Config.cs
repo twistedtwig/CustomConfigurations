@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 
@@ -30,12 +31,16 @@ namespace CustomConfigurations
         /// <exception cref="ArgumentException">error if section is null or empty string</exception>
         /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
         /// <param name="configurationPath"></param>
-        public Config(string configurationPath)
-        {            
+        public Config(string configurationPath) : this(string.Empty, configurationPath)
+        { }
+
+        public Config(string pathToConfigFile, string configurationPath)
+        {
+            string filePath = pathToConfigFile.Trim();
             if (!string.IsNullOrEmpty(configurationPath))
             {
                 //created the config SectionLoader with the given configuration path.
-                if (CreateConfigurationLoaderObject(configurationPath))
+                if (CreateConfigurationLoaderObject(filePath, configurationPath))
                 {
                     return;
                 }
@@ -47,13 +52,13 @@ namespace CustomConfigurations
                     if (!string.IsNullOrEmpty(path))
                     {
                         //created the config SectionLoader with the given configuration path.
-                        if (CreateConfigurationLoaderObject(path))
+                        if (CreateConfigurationLoaderObject(filePath, path))
                         {
                             return;
                         }
                     }
-                }    
-            }            
+                }
+            }
 
             //if we got here we were not able to create a configuraiton SectionLoader successfully.
             throw new ApplicationException("ConfigurationSectionLoader failed to load with any valid path");            
@@ -162,9 +167,10 @@ namespace CustomConfigurations
         /// <summary>
         /// creates the configurationLoader for the given path.
         /// </summary>
+        /// <param name="pathToConfigFile"> </param>
         /// <param name="configPath">path to the configuration section in the config file.</param>
         /// <returns>If the configuration Loader was created successfully, doesn't gaurantee items have been found, only that it is not null.</returns>
-        private bool CreateConfigurationLoaderObject(string configPath)
+        private bool CreateConfigurationLoaderObject(string pathToConfigFile, string configPath)
         {
             if (string.IsNullOrEmpty(configPath))
             {
@@ -173,7 +179,17 @@ namespace CustomConfigurations
 
             try
             {
-                ConfigSectionLoader = ConfigurationManager.GetSection(configPath) as ConfigurationSectionLoader;
+                if (string.IsNullOrEmpty(pathToConfigFile.Trim()) || !File.Exists(pathToConfigFile))
+                {
+                    ConfigSectionLoader = ConfigurationManager.GetSection(configPath) as ConfigurationSectionLoader;    
+                }
+                else
+                {
+                    ConfigurationFileMap fileMap = new ConfigurationFileMap(pathToConfigFile); //Path to your config file
+                    Configuration configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
+                    ConfigSectionLoader = configuration.GetSection(configPath) as ConfigurationSectionLoader;    
+                }
+                
                 if (ConfigSectionLoader == null) return false;
 
                 foreach (ConfigurationGroupElement configGroup in ConfigSectionLoader.ConfigGroups)
