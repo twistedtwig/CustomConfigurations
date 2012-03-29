@@ -14,7 +14,7 @@ namespace CustomConfigurations
     /// 
     /// For a given key it will return NULL or the value if found.
     /// </summary>
-    public class Config
+    public class Config : IDisposable
     {
         private ConfigurationSectionLoader ConfigSectionLoader;
         private  IList<string> ConfigSectionNames = new List<string>();
@@ -235,6 +235,16 @@ namespace CustomConfigurations
         public ConfigSection GetSection(string sectionName)
         {
             return !ConfigSectionNames.Contains(sectionName) ? null : new ConfigSection(ConfigSectionLoader.ConfigGroups[sectionName]);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {            
+            ConfigSectionLoader.Dispose();
+            ConfigSectionNames = null;
         }
     }
 }
