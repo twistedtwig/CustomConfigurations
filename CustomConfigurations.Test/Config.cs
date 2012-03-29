@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
 namespace CustomConfigurations.Test
 {
     [TestFixture]
-    public class Config : IDisposable
+    public class Config
     {
         private CustomConfigurations.Config Configloader;
 
@@ -79,6 +78,8 @@ namespace CustomConfigurations.Test
             Configloader = new CustomConfigurations.Config(tempFilePath, "testsection5");
             Assert.IsNotNull(Configloader);
             Assert.AreEqual(3, Configloader.Count);            
+            //clean up after ones self! :p
+            File.Delete(tempFilePath);
         }
 
         [Test]
@@ -87,15 +88,6 @@ namespace CustomConfigurations.Test
             Configloader = new CustomConfigurations.Config("C:\temp\thisIsARubbishFilePath.config" ,"testsection2");
             Assert.IsNotNull(Configloader);
             Assert.AreEqual(2, Configloader.Count);            
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            Configloader.Dispose();
-        }
+        }        
     }
 }
