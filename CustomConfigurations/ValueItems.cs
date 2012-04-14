@@ -46,11 +46,35 @@ namespace CustomConfigurations
         public ValueItemElement this[int index]
         {
             get { return BaseGet(index) as ValueItemElement; }
+            //TODO: how to do setter for an index
         }
 
         public new ValueItemElement this[string key]
         {
             get { return BaseGet(key) as ValueItemElement; }
+            set { base[key] = value; }
+        }
+
+        public void Add(ValueItemElement item)
+        {
+            if (this[item.Key] != null)
+            {
+                this[item.Key] = item;
+            }
+            else
+            {
+                base.BaseAdd(item);
+            }
+        }
+
+        public void Remove(string key)
+        {
+            BaseRemove(key);
+        }
+
+        public void RemoveAt(int index)
+        {
+            BaseRemoveAt(index);
         }
     }
 
@@ -66,19 +90,15 @@ namespace CustomConfigurations
         [ConfigurationProperty("key", IsRequired = true, IsKey = true)]
         public String Key
         {
-            get
-            {
-                return this["key"].ToString();
-            }
+            get { return this["key"].ToString(); }
+            set { this["key"] = value; }
         }
 
         [ConfigurationProperty("value", IsRequired = true, IsKey = false)]
         public String Value
         {
-            get
-            {
-                return this["value"].ToString();
-            }
+            get { return this["value"].ToString(); }
+            set { this["value"] = value; }
         }
     }
 }

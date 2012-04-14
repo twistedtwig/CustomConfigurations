@@ -2,6 +2,8 @@ Custom Configurations:
 
 Allows the application to simplify the use of configuration settings.  For example if the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.
 
+At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).
+
 Here is an example configuration file:
 
 <configuration>

@@ -246,5 +246,23 @@ namespace CustomConfigurations
             ConfigSectionLoader.Dispose();
             ConfigSectionNames = null;
         }
+//
+//        public void Save()
+//        {
+//            throw new NotImplementedException();
+//        }
+//
+//        public void SaveTest()
+//        {
+//            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+//
+//            ConfigSection configSection = this.GetSection("clienta");
+//            configSection["key2"] = "newvalue";
+//
+//            //save to apply changes
+//            config.Save(ConfigurationSaveMode.Full);
+//            //ConfigurationManager.RefreshSection("appSettings");
+//
+//        }
     }
 }

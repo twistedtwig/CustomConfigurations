@@ -61,7 +61,23 @@ namespace CustomConfigurations
 
                 ValueItemElement item = ConfigElement.ValueItemCollection[key];
                 return item != null ? item.Value : null;
+            }           
+            set
+            {
+                if (!ContainsKey(key))
+                {
+                    ConfigElement.ValueItemCollection.Add(new ValueItemElement { Key = key, Value = value });
+                }
+                else
+                {
+                    ConfigElement.ValueItemCollection[key].Value = value;
+                }
             }
+        }
+
+        public void Remove(string key)
+        {
+            ConfigElement.ValueItemCollection.Remove(key);
         }
 
         /// <summary>
@@ -157,6 +173,6 @@ namespace CustomConfigurations
             }
 
             return default(T);
-        }
+        }        
     }
 }

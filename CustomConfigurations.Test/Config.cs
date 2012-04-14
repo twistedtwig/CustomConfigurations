@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -89,5 +90,18 @@ namespace CustomConfigurations.Test
             Assert.IsNotNull(Configloader);
             Assert.AreEqual(2, Configloader.Count);            
         }        
+
+//        [Test]
+//        public void TestCanDisguardChangesMadeThatHaveNotBeenSaved()
+//        {
+//            throw new NotImplementedException();
+//        }
+//
+//        [Test]
+//        public void TestSave()
+//        {
+//            Configloader = new CustomConfigurations.Config("App.Test.Config","testsection5");
+//            Configloader.SaveTest();
+//        }
     }
 }
