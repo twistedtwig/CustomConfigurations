@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+
 namespace CustomConfigurations
 {
     public class CollectionsGroup
@@ -61,6 +63,11 @@ namespace CustomConfigurations
             }
 
             return new ConfigSection(Collections[name], Parent);
+        }
+
+        public IEnumerable<ConfigSection> GetCollections()
+        {
+            return from ConfigurationGroupElement element in Collections select new ConfigSection(element, Parent);
         }
     }
 }
