@@ -89,7 +89,43 @@ namespace CustomConfigurations.Test
             Configloader = new CustomConfigurations.Config("C:\temp\thisIsARubbishFilePath.config" ,"testsection2");
             Assert.IsNotNull(Configloader);
             Assert.AreEqual(2, Configloader.Count);            
-        }        
+        }
+
+        [Test]
+        public void TestConfigurationLoaderAssignsAllIndexesCorrectly()
+        {            
+            CustomConfigurations.ConfigSection configSection = Configloader.GetSection("client1");
+            Assert.AreEqual(0, configSection.Index);
+
+            Assert.AreEqual(0, configSection.GetValueItemIndex("key2"));
+            Assert.AreEqual(2, configSection.GetValueItemIndex("key4"));
+            Assert.AreEqual(1, configSection.GetValueItemIndex("key3"));
+            Assert.AreEqual(3, configSection.GetValueItemIndex("key5"));
+            Assert.AreEqual(4, configSection.GetValueItemIndex("key6"));
+
+            CustomConfigurations.ConfigSection innerCol1 = configSection.Collections.GetCollection("col1");
+            Assert.AreEqual(0, innerCol1.Index);
+            Assert.AreEqual(0, innerCol1.GetValueItemIndex("key2"));
+            Assert.AreEqual(1, innerCol1.GetValueItemIndex("key3"));
+
+            CustomConfigurations.ConfigSection innerCol2 = configSection.Collections.GetCollection("col2");
+            Assert.AreEqual(1, innerCol2.Index);
+            Assert.AreEqual(1, innerCol2.GetValueItemIndex("key4"));
+            Assert.AreEqual(0, innerCol2.GetValueItemIndex("key3"));
+            Assert.AreEqual(2, innerCol2.GetValueItemIndex("key5"));
+
+            CustomConfigurations.ConfigSection innerCol3 = innerCol2.Collections.GetCollection("col3");
+            Assert.AreEqual(0, innerCol3.Index);
+            Assert.AreEqual(0, innerCol3.GetValueItemIndex("key2a"));
+            Assert.AreEqual(1, innerCol3.GetValueItemIndex("key3a"));
+
+            //Test other config section as it has multiple config groups section
+            Configloader = new CustomConfigurations.Config("testsection2");
+            Assert.IsNotNull(Configloader);
+
+            Assert.AreEqual(0, Configloader.GetSection("clienta").Index);
+            Assert.AreEqual(1, Configloader.GetSection("clientb").Index);
+        }
 
 //        [Test]
 //        public void TestCanDisguardChangesMadeThatHaveNotBeenSaved()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 
@@ -196,12 +197,44 @@ namespace CustomConfigurations
                 {
                     ConfigSectionNames.Add(configGroup.Name);
                 }
+
+                SetIndexesForConfigGroupCollectionRecursively(ConfigSectionLoader.ConfigGroups);
             }
             catch (Exception ex)
             {
                 return false;
             }
             return ConfigSectionLoader != null;
+        }
+      
+        private void SetIndexesForConfigGroupCollectionRecursively(ConfigurationGroupCollection configGroupCollection)
+        {
+            for (int i = 0; i < configGroupCollection.Count; i++)
+            {
+                ConfigurationGroupElement configGroup = configGroupCollection[i];
+                configGroup.Index = i;
+
+                SetIndexesForConfigGroupElementRecursively(configGroup);
+            }            
+        }
+
+        private void SetIndexesForConfigGroupElementRecursively(ConfigurationGroupElement configGroup)
+        {
+            for (int j = 0; j < configGroup.ValueItemCollection.Count; j++)
+            {
+                configGroup.ValueItemCollection[j].Index = j;
+            }
+
+            if (configGroup.InnerCollections != null && configGroup.InnerCollections.Count > 0)
+            {
+                for (int i = 0; i < configGroup.InnerCollections.Count; i++)
+                {
+                    ConfigurationGroupElement innerConfigGroup = configGroup.InnerCollections[i];
+                    innerConfigGroup.Index = i;
+
+                    SetIndexesForConfigGroupElementRecursively(innerConfigGroup);
+                }
+            }
         }
 
         /// <summary>

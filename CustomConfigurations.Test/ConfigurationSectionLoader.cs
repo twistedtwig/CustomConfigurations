@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace CustomConfigurations.Test
 {
@@ -50,7 +51,6 @@ namespace CustomConfigurations.Test
             Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
             ConfigurationGroupElement configGroup = ConfigurationLoader.ConfigGroups["clientXYZ"];
             Assert.IsNull(configGroup);
-        }
-
+        }        
     }
 }

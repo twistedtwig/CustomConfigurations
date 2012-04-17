@@ -35,6 +35,8 @@ namespace CustomConfigurations
             get { return ConfigElement.Name; }
         }
 
+        public int Index { get { return ConfigElement.Index; } }
+
         /// <summary>
         /// Returns the number of values found for that config group
         /// </summary>
@@ -75,6 +77,16 @@ namespace CustomConfigurations
             }
         }
 
+        public int GetValueItemIndex(string key)
+        {
+            if (!ContainsKey(key))
+            {
+                return -1;
+            }
+
+            return ConfigElement.ValueItemCollection[key].Index;
+        }
+
         public void Remove(string key)
         {
             ConfigElement.ValueItemCollection.Remove(key);
@@ -99,6 +111,8 @@ namespace CustomConfigurations
         //figure out how to access inner collections and specify a single key
 
         private CollectionsGroup collections;
+        
+
         /// <summary>
         /// returns the inner collections if there are any, otherwise returns null.
         /// </summary>

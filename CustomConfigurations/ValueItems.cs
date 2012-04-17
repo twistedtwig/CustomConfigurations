@@ -87,6 +87,8 @@ namespace CustomConfigurations
     /// </summary>
     public class ValueItemElement : ConfigurationElement
     {
+        public int Index { get; set; }
+
         [ConfigurationProperty("key", IsRequired = true, IsKey = true)]
         public String Key
         {

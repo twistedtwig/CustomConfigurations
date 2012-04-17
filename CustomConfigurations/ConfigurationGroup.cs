@@ -48,6 +48,8 @@ namespace CustomConfigurations
     /// </summary>
     public class ConfigurationGroupElement : ConfigurationElement
     {
+        public int Index { get; set; }
+
         [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
         public string Name
         {
