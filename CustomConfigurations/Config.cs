@@ -5,6 +5,8 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Configuration;
 using System.Xml.XPath;
 
 namespace CustomConfigurations
@@ -48,7 +50,7 @@ namespace CustomConfigurations
             }
             if (ConfigSectionLoader == null) //if we have not yet created a configuration loader try again now.
             {
-                foreach (string path in DetermineConfigurationPath())
+                foreach (string path in DetermineConfigurationPath(pathToConfigFile))
                 {
                     if (!string.IsNullOrEmpty(path))
                     {
@@ -69,9 +71,23 @@ namespace CustomConfigurations
         /// Tries to find all valid configuration section / group paths that are valid for this loader.
         /// </summary>
         /// <returns></returns>
-        private IEnumerable<string> DetermineConfigurationPath()
+        private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile = "")
         {
-            string configFileLocation = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            string configFileLocation = String.Empty;
+            string processName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+            if (!string.IsNullOrEmpty(pathToConfigFile))
+            {
+                configFileLocation = pathToConfigFile.Trim();
+            }
+            else if (HttpContext.Current == null) //if not running a web App
+            {
+                configFileLocation = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            }
+            else
+            {
+                throw new ArgumentException("can not determine the path to the configuration elements when running as a web application if the file path is not given.");
+            }
+            
             string fullApplicationName = typeof (ConfigurationSectionLoader).FullName;
             string fullApplicationAssembly = typeof(ConfigurationSectionLoader).Assembly.ToString().Substring(0, typeof(ConfigurationSectionLoader).Assembly.ToString().IndexOf(",", StringComparison.InvariantCultureIgnoreCase));
             string configLoaderRegexString = fullApplicationName + @",[\s]{0,1}" + fullApplicationAssembly;
