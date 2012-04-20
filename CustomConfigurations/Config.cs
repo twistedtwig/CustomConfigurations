@@ -97,10 +97,16 @@ namespace CustomConfigurations
             XPathNavigator nav = doc.CreateNavigator();
 
             XPathNodeIterator sectionIterator = nav.Select(@"configuration/configSections");
-            foreach (var p in DetermineValidSectionElements(configRegex,String.Empty, sectionIterator)) yield return p;
+            if(sectionIterator.Count > 0)
+            {
+                foreach (var p in DetermineValidSectionElements(configRegex,String.Empty, sectionIterator)) yield return p;
+            }
 
             XPathNodeIterator sectionGroupIterator = nav.Select(@"configuration/configSections/sectionGroup");
-            foreach (var p in DetermineValidSectionGroups(configRegex, sectionGroupIterator)) yield return p;
+            if(sectionGroupIterator.Count > 0)
+            {
+                foreach (var p in DetermineValidSectionGroups(configRegex, sectionGroupIterator)) yield return p;
+            }
         }
 
         /// <summary>
