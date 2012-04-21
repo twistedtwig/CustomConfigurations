@@ -71,7 +71,7 @@ namespace CustomConfigurations
         /// Tries to find all valid configuration section / group paths that are valid for this loader.
         /// </summary>
         /// <returns></returns>
-        private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile = "")
+        private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile)
         {
             string configFileLocation = String.Empty;
             string processName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
