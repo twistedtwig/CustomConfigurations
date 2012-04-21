@@ -49,6 +49,9 @@
     <Compile Include="LoadingByProvidingSectionNameOnly.cs" />
     <Compile Include="LoadingMultipleConfigSections.cs" />
     <Compile Include="LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs" />
+    <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\ConfigurationLoader.cs" />
+    <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainController.cs" />
+    <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLoadingOfConfiguration.cs" />
@@ -57,6 +60,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="App.Testfile.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MoreComplexExamples\WrappingConfigurationIntoALoader\wrapping.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

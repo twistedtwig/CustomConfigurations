@@ -14,6 +14,9 @@ namespace ExampleApp
             LoadingAConfigFileThatIsNotTheDefaultConfig lcf = new LoadingAConfigFileThatIsNotTheDefaultConfig();
             CreatingStronglyTypedObjectsFromConfig cstofc = new CreatingStronglyTypedObjectsFromConfig();
 
+            //wrapping configuration
+            MoreComplexExamples.WrappingConfigurationIntoALoader.DomainController wdc = new MoreComplexExamples.WrappingConfigurationIntoALoader.DomainController();
+
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();
         }

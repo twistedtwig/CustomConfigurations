@@ -209,15 +209,15 @@ namespace CustomConfigurations
             {
                 if (string.IsNullOrEmpty(pathToConfigFile.Trim()) || !File.Exists(pathToConfigFile))
                 {
-                    ConfigSectionLoader = ConfigurationManager.GetSection(configPath) as ConfigurationSectionLoader;    
+                    ConfigSectionLoader = ConfigurationManager.GetSection(configPath) as ConfigurationSectionLoader;
                 }
                 else
                 {
                     ConfigurationFileMap fileMap = new ConfigurationFileMap(pathToConfigFile); //Path to your config file
                     Configuration configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
-                    ConfigSectionLoader = configuration.GetSection(configPath) as ConfigurationSectionLoader;    
+                    ConfigSectionLoader = configuration.GetSection(configPath) as ConfigurationSectionLoader;
                 }
-                
+
                 if (ConfigSectionLoader == null) return false;
 
                 foreach (ConfigurationGroupElement configGroup in ConfigSectionLoader.ConfigGroups)
@@ -227,8 +227,14 @@ namespace CustomConfigurations
 
                 SetIndexesForConfigGroupCollectionRecursively(ConfigSectionLoader.ConfigGroups);
             }
+            catch (ConfigurationErrorsException)
+            {
+                //error with configuration inside what seems to be a valid section, rethrow.
+                throw;
+            }
             catch (Exception ex)
             {
+                //no good, try more options.
                 return false;
             }
             return ConfigSectionLoader != null;
