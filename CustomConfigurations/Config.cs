@@ -87,6 +87,11 @@ namespace CustomConfigurations
             {
                 throw new ArgumentException("can not determine the path to the configuration elements when running as a web application if the file path is not given.");
             }
+
+            if (!File.Exists(configFileLocation))
+            {
+                throw new FileNotFoundException(configFileLocation);
+            }
             
             string fullApplicationName = typeof (ConfigurationSectionLoader).FullName;
             string fullApplicationAssembly = typeof(ConfigurationSectionLoader).Assembly.ToString().Substring(0, typeof(ConfigurationSectionLoader).Assembly.ToString().IndexOf(",", StringComparison.InvariantCultureIgnoreCase));

@@ -12,6 +12,7 @@ namespace ExampleApp
             LoadingMultipleConfigSections lmc = new LoadingMultipleConfigSections();
             UsingInnerCollections uic = new UsingInnerCollections();
             LoadingAConfigFileThatIsNotTheDefaultConfig lcf = new LoadingAConfigFileThatIsNotTheDefaultConfig();
+            CreatingStronglyTypedObjectsFromConfig cstofc = new CreatingStronglyTypedObjectsFromConfig();
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();
