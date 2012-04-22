@@ -49,6 +49,9 @@
     <Compile Include="LoadingByProvidingSectionNameOnly.cs" />
     <Compile Include="LoadingMultipleConfigSections.cs" />
     <Compile Include="LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\ConfigurationLoader.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\DomainController.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\DomainModel.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\ConfigurationLoader.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainController.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainModel.cs" />
@@ -60,6 +63,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="App.Testfile.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MoreComplexExamples\AutoGenerateModelsFromConfig\autogen.config">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="MoreComplexExamples\WrappingConfigurationIntoALoader\wrapping.config">

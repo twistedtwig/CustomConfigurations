@@ -108,11 +108,7 @@ namespace CustomConfigurations
             get { return ConfigElement.InnerCollections != null && ConfigElement.InnerCollections.Count > 0; }
         }
 
-        //figure out how to access inner collections and specify a single key
-
         private CollectionsGroup collections;
-        
-
         /// <summary>
         /// returns the inner collections if there are any, otherwise returns null.
         /// </summary>
@@ -187,6 +183,26 @@ namespace CustomConfigurations
             }
 
             return default(T);
-        }        
+        }
+
+        /// <summary>
+        /// Create the given object and assign values from ValueItems where key matches name exactly.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T Create<T>()
+        {
+            return Create<T>(false);
+        }
+
+        public T Create<T>(bool includePrivateorProtectedProperties)
+        {
+            if (!valuesAsDictionary.ContainsKey("Name") && !valuesAsDictionary.ContainsKey("name"))
+            {
+                valuesAsDictionary.Add("Name", Name);
+            }
+
+            return ObjectCreator.Create<T>(includePrivateorProtectedProperties, valuesAsDictionary);
+        }
     }
 }

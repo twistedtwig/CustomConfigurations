@@ -129,5 +129,37 @@ namespace CustomConfigurations.Test
             Assert.IsNotNull(childSection);
             Assert.IsTrue(childSection.IsChild);
         }
+
+        [Test]
+        public void TestCanCreateTypedObjectAndPopulatePublicValuesFromValueItems()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            DomainModel model = configSection.Create<DomainModel>();
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(5, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+        }
+
+        [Test]
+        public void TestCanCreateTypedObjectAndPopulatePublicAndPrivateValuesFromValueItems()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            DomainModel model = configSection.Create<DomainModel>(true);
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(5, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
+        }
     }
 }
