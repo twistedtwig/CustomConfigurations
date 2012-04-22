@@ -161,5 +161,24 @@ namespace CustomConfigurations.Test
             Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
             Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
         }
+
+        [Test]
+        public void TestCanCreateTypedObjectAndPopulateWithFieldMappings()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            IDictionary<string, string> mappings = new Dictionary<string, string>();
+            mappings.Add("NoUnits", "NumberUnits");
+
+            DomainModel model = configSection.Create<DomainModel>(false, mappings);
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(23, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+        }
     }
 }

@@ -197,12 +197,17 @@ namespace CustomConfigurations
 
         public T Create<T>(bool includePrivateorProtectedProperties)
         {
+            return Create<T>(includePrivateorProtectedProperties, null);
+        }
+
+        public T Create<T>(bool includePrivateorProtectedProperties, IDictionary<string, string> mappings)
+        {
             if (!valuesAsDictionary.ContainsKey("Name") && !valuesAsDictionary.ContainsKey("name"))
             {
                 valuesAsDictionary.Add("Name", Name);
             }
 
-            return ObjectCreator.Create<T>(includePrivateorProtectedProperties, valuesAsDictionary);
+            return ObjectCreator.Create<T>(includePrivateorProtectedProperties, valuesAsDictionary, mappings);
         }
     }
 }

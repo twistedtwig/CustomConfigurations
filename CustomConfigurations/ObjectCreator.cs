@@ -21,17 +21,34 @@ namespace CustomConfigurations
         /// <returns></returns>
         public static T Create<T>(bool includePrivateorProtectedProperties, IDictionary<string, string> valueDictionary)
         {
+            return Create<T>(includePrivateorProtectedProperties, valueDictionary, null);
+        }
+
+        /// <summary>
+        /// Create an object of the given type T.  
+        /// Can state if should only try and set public properties.
+        /// Must pass in a dictionary of keys, the name of the property, and values the value as a string to be set.
+        /// if mappings are given, then the key it will look for will be the value in the mapping.. i.e. if mapping key = Prop1, mapping value = MyProp1 then when populating the fields from config
+        /// it will not use the config key (Prop1) it will use the key mapping key (MyProp1) to search the object for that Property by name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="includePrivateorProtectedProperties"></param>
+        /// <param name="valueDictionary"></param>
+        /// <param name="mappings"></param>
+        /// <returns></returns>
+        public static T Create<T>(bool includePrivateorProtectedProperties, IDictionary<string, string> valueDictionary, IDictionary<string, string> mappings)
+        {
             var obj = InstantiateObject<T>(valueDictionary);
 
             //populate values.
-            PopulateFieldsFromValuesItems(obj, !includePrivateorProtectedProperties, valueDictionary);
+            PopulateFieldsFromValuesItems(obj, !includePrivateorProtectedProperties, valueDictionary, mappings);
 
             //return T
             return obj;
         }
 
         
-        private static void PopulateFieldsFromValuesItems<T>(T obj, bool onlySetPublicSetters, IDictionary<string, string> valueDictionary)
+        private static void PopulateFieldsFromValuesItems<T>(T obj, bool onlySetPublicSetters, IDictionary<string, string> valueDictionary, IDictionary<string, string>  mappings)
         {
             //foreach field in dictionary see if there is a field with the same name
             foreach (KeyValuePair<string, string> valuePair in valueDictionary)
@@ -39,11 +56,19 @@ namespace CustomConfigurations
                 string key = valuePair.Key;
                 string value = valuePair.Value;
 
-                SetPropertyValue(obj, onlySetPublicSetters, value, key);
+                if (mappings != null)
+                {
+                    if (mappings.ContainsKey(key))
+                    {
+                        key = mappings[key];
+                    }
+                }
+
+                SetPropertyValue(obj, onlySetPublicSetters, key, value);
             }
         }
 
-        private static void SetPropertyValue<T>(T obj, bool onlySetPublicSetters, string value, string key)
+        private static void SetPropertyValue<T>(T obj, bool onlySetPublicSetters, string key, string value)
         {
             PropertyInfo prop = GetProperty(obj, key, onlySetPublicSetters);
             if (prop != null)

@@ -20,6 +20,9 @@ namespace ExampleApp
             //auto generate object from config file.
             MoreComplexExamples.AutoGenerateModelsFromConfig.DomainController autoGen = new MoreComplexExamples.AutoGenerateModelsFromConfig.DomainController();
 
+            //auto generate object from config file, with mapping values.
+            MoreComplexExamples.MappingFieldsAutoGen.DomainController mappingGen = new MoreComplexExamples.MappingFieldsAutoGen.DomainController();
+
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();
         }
