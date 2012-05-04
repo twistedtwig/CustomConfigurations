@@ -74,6 +74,17 @@ string myVal = Configloader["keya"];
 
 The console application "ExampleApp" shows the different ways the customConfiguration application can be used.
 
+The examples include:
+
+1) Simply loading the configuration settings and manually getting a setting from it, (SimpleLoadingOfConfiguration.cs)
+2) Showing how the application will try and determine the custom section in the config file so you do not have to explicity declare it everytime (LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs).
+3) How to load multiple configuration sections at one time (LoadingMultipleConfigSections.cs)
+4) How to create more complex data structures in config, using inner collections (UsingInnerCollections.cs)
+5) How to load a different configuration file (LoadingAConfigFileThatIsNotTheDefaultConfig.cs)
+6) How to generate strongly typed objects automatically (ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfig)
+7) How to map configuration settings keys to the strongly typed object that have different property names (ExampleApp.MoreComplexExamples.MappingFieldsAutoGen)
+
+
 -------------------------------------------------------------
 
 N.B. all config sections are case sensitive, be careful how you write the xml and using the selectors.
