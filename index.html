@@ -7,6 +7,14 @@
     <meta name="description" content="Customconfigurations : a C# configuration Manager handler to allow for multiple clients settings to exists and be easily accessed via custom configuration settings" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://balupton.github.com/jquery-syntaxhighlighter/scripts/jquery.syntaxhighlighter.min.js"></script>
+	<script type="text/javascript">
+		$(document).Ready(function() {
+			$.SyntaxHighlighter.init();
+		});
+	</script>
 
     <title>Custom Configurations for .Net</title>
   </head>
@@ -39,7 +47,7 @@
 
 <p>A simple but effective use is to have an object with N number of properties, such as:</p>
 
-<pre><code>
+<pre><code class="highlight"> 
 public class MyAppSettings
 {    
     public string Name { get; set; }    
