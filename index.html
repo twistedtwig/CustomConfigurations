@@ -110,6 +110,19 @@ CustomConfigurations.Config Configloader = new CustomConfigurations.Config("clie
 string myVal = Configloader["keya"];
 </pre></code>
 
+<h3>About the examples</h3>
+
+<p>The console application "ExampleApp" shows the different ways the customConfiguration application can be used.  The examples include:</p>
+
+<ul>
+<li>Simply loading the configuration settings and manually getting a setting from it, (SimpleLoadingOfConfiguration.cs)</li>
+<li>Showing how the application will try and determine the custom section in the config file so you do not have to explicity declare it everytime (LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs).</li>
+<li>How to load multiple configuration sections at one time (LoadingMultipleConfigSections.cs)</li>
+<li>How to create more complex data structures in config, using inner collections (UsingInnerCollections.cs)</li>
+<li>How to load a different configuration file (LoadingAConfigFileThatIsNotTheDefaultConfig.cs)</li>
+<li>How to generate strongly typed objects automatically (ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfig)</li>
+<li>How to map configuration settings keys to the strongly typed object that have different property names (ExampleApp.MoreComplexExamples.MappingFieldsAutoGen)</li>
+</ul>
 
 
 <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact support@github.com and we’ll help you sort it out.</p>
