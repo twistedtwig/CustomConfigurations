@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/twistedtwig/CustomConfigurations">Fork Me on GitHub</a>
 
-          <h1 id="project_title">Customconfigurations</h1>
+          <h1 id="project_title">Custom Configurations for .Net</h1>
           <h2 id="project_tagline">a C# configuration Manager handler to allow for multiple clients settings to exists and be easily accessed via custom configuration settings</h2>
 
           <section id="downloads">
@@ -31,7 +31,7 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>Welcome to Custom Configurations</h3>
 
 <p>Custom configurations is designed to reduce the repeative lines of code needed to get configuration settings into your application.  If there are 5 or 50 settings there doesn't need any extra code to get your settings.  It allows the application to simplify the use of configuration settings.</p>
 
@@ -40,7 +40,13 @@
 <p>A simple but effective use is to have an object with N number of properties, such as:</p>
 
 <pre><code>
-public class MyAppSettings{    public string Name { get; set; }    public string Location { get; set; }    public bool ShouldDoX { get; set; }    public int minValue { get; set; }}
+public class MyAppSettings
+{    
+public string Name { get; set; }    
+public string Location { get; set; }    
+public bool ShouldDoX { get; set; }    
+public int minValue { get; set; }
+}
 </code></pre>
 
 <p>Then use the configuration loader to populate the values:</p>
@@ -58,45 +64,45 @@ MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettin
 
 <p>Here is an example configuration file:</p>
 <pre><code>
-<configuration>
-  <configSections>
-    <section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
-    <sectionGroup name="myCustomGroup">
-      <section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
-    </sectionGroup>
-  </configSections>
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" /&gt;
+    &lt;sectionGroup name="myCustomGroup"&gt;
+      &lt;section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" /&gt;
+    &lt;/sectionGroup&gt;
+  &lt;/configSections&gt;
 
-  <myCustomGroup>
-    <mysection>
-      <Configs>
-      <ConfigurationGroup name="client1">
-        <ValueItems>
-          <ValueItem key="key2" value="value2" />
-          <ValueItem key="key3" value="value3" />
-          <ValueItem key="key4" value="value4" />
-          <ValueItem key="key5" value="7" />
-          <ValueItem key="key6" value="0.6" />        
-      </ConfigurationGroup>
-	  <ConfigurationGroup name="client2">
-          <ValueItems>
-            <ValueItem key="keya" value="abc" />
-            <ValueItem key="key2" value="123" />
-          </ValueItems>
-        </ConfigurationGroup>
-      </Configs>
-    </mysection>
-  </myCustomGroup>
+  &lt;myCustomGroup&gt;
+    &lt;mysection&gt;
+      &lt;Configs&gt;
+      &lt;ConfigurationGroup name="client1"&gt;
+        &lt;ValueItems&gt;
+          &lt;ValueItem key="key2" value="value2" /&gt;
+          &lt;ValueItem key="key3" value="value3" /&gt;
+          &lt;ValueItem key="key4" value="value4" /&gt;
+          &lt;ValueItem key="key5" value="7" /&gt;
+          &lt;ValueItem key="key6" value="0.6" /&gt;        
+      &lt;/ConfigurationGroup&gt;
+	  &lt;ConfigurationGroup name="client2"&gt;
+          &lt;ValueItems&gt;
+            &lt;ValueItem key="keya" value="abc" /&gt;
+            &lt;ValueItem key="key2" value="123" /&gt;
+          &lt;/ValueItems&gt;
+        &lt;/ConfigurationGroup&gt;
+      &lt;/Configs&gt;
+    &lt;/mysection&gt;
+  &lt;/myCustomGroup&gt;
 
-  <testsection2>
-    <Configs>
-      <ConfigurationGroup name="clienta">
-        <ValueItems>
-          <ValueItem key="key2" value="valueabc" />          
-        </ValueItems>       
-      </ConfigurationGroup>
-    </Configs>
-  </testsection2>
-</configuration>
+  &lt;testsection2&gt;
+    &lt;Configs&gt;
+      &lt;ConfigurationGroup name="clienta"&gt;
+        &lt;ValueItems&gt;
+          &lt;ValueItem key="key2" value="valueabc" /&gt;          
+        &lt;/ValueItems&gt;       
+      &lt;/ConfigurationGroup&gt;
+    &lt;/Configs&gt;
+  &lt;/testsection2&gt;
+&lt;/configuration&gt;
 </code></pre>
 
 <p>If the app wanted to read "client2"'s configuration it could do the following:</p>
