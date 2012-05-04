@@ -16,74 +16,9 @@ Then use the configuration loader to populate the values:
 
 MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
 
-Another example is when the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.
+For more detailed information please visit http://twistedtwig.github.com/CustomConfigurations/ (GH-Pages)
 
-At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).
-
-Here is an example configuration file:
-
-<configuration>
-  <configSections>
-    <section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
-    <sectionGroup name="myCustomGroup">
-      <section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
-    </sectionGroup>
-  </configSections>
-
-  <myCustomGroup>
-    <mysection>
-      <Configs>
-      <ConfigurationGroup name="client1">
-        <ValueItems>
-          <ValueItem key="key2" value="value2" />
-          <ValueItem key="key3" value="value3" />
-          <ValueItem key="key4" value="value4" />
-          <ValueItem key="key5" value="7" />
-          <ValueItem key="key6" value="0.6" />        
-      </ConfigurationGroup>
-	  <ConfigurationGroup name="client2">
-          <ValueItems>
-            <ValueItem key="keya" value="abc" />
-            <ValueItem key="key2" value="123" />
-          </ValueItems>
-        </ConfigurationGroup>
-      </Configs>
-    </mysection>
-  </myCustomGroup>
-
-  <testsection2>
-    <Configs>
-      <ConfigurationGroup name="clienta">
-        <ValueItems>
-          <ValueItem key="key2" value="valueabc" />          
-        </ValueItems>       
-      </ConfigurationGroup>
-    </Configs>
-  </testsection2>
-</configuration>
-
-If the app wanted to read "client2"'s configuration it could do the following:
-
-CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
-
-To access a value it would use the index of the key:
-
-string myVal = Configloader["keya"];
-
--------------------------------------------------------------
-
-The console application "ExampleApp" shows the different ways the customConfiguration application can be used.
-
-The examples include:
-
-1) Simply loading the configuration settings and manually getting a setting from it, (SimpleLoadingOfConfiguration.cs)
-2) Showing how the application will try and determine the custom section in the config file so you do not have to explicity declare it everytime (LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs).
-3) How to load multiple configuration sections at one time (LoadingMultipleConfigSections.cs)
-4) How to create more complex data structures in config, using inner collections (UsingInnerCollections.cs)
-5) How to load a different configuration file (LoadingAConfigFileThatIsNotTheDefaultConfig.cs)
-6) How to generate strongly typed objects automatically (ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfig)
-7) How to map configuration settings keys to the strongly typed object that have different property names (ExampleApp.MoreComplexExamples.MappingFieldsAutoGen)
-
+Thanks
 
 -------------------------------------------------------------
 
