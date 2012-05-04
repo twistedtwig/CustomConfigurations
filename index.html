@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Customconfigurations : a C# configuration Manager handler to allow for multiple clients settings to exists and be easily accessed via custom configuration settings" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Custom Configurations for .Net</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/twistedtwig/CustomConfigurations">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Custom Configurations for .Net</h1>
+          <h2 id="project_tagline">a C# configuration Manager handler to allow for multiple clients settings to exists and be easily accessed via custom configuration settings</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/twistedtwig/CustomConfigurations/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/twistedtwig/CustomConfigurations/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Welcome to Custom Configurations</h3>
+
+<p>Custom configurations is designed to reduce the repeative lines of code needed to get configuration settings into your application.  If there are 5 or 50 settings there doesn't need any extra code to get your settings.  It allows the application to simplify the use of configuration settings.</p>
+
+<h3>Simple Example</h3>
+
+<p>A simple but effective use is to have an object with N number of properties, such as:</p>
+
+<pre><code>
+public class MyAppSettings
+{    
+    public string Name { get; set; }    
+    public string Location { get; set; }    
+    public bool ShouldDoX { get; set; }    
+    public int minValue { get; set; }
+}
+</code></pre>
+
+<p>Then use the configuration loader to populate the values:</p>
+
+<pre><code>
+MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
+</code></pre>
+
+<h3>Multipe sections example</h3>
+
+<p>Another example is when the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.</p>
+
+
+<p>At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).</p>
+
+<p>Here is an example configuration file:</p>
+<pre><code>
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" /&gt;
+    &lt;sectionGroup name="myCustomGroup"&gt;
+      &lt;section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" /&gt;
+    &lt;/sectionGroup&gt;
+  &lt;/configSections&gt;
+
+  &lt;myCustomGroup&gt;
+    &lt;mysection&gt;
+      &lt;Configs&gt;
+      &lt;ConfigurationGroup name="client1"&gt;
+        &lt;ValueItems&gt;
+          &lt;ValueItem key="key2" value="value2" /&gt;
+          &lt;ValueItem key="key3" value="value3" /&gt;
+          &lt;ValueItem key="key4" value="value4" /&gt;
+          &lt;ValueItem key="key5" value="7" /&gt;
+          &lt;ValueItem key="key6" value="0.6" /&gt;        
+      &lt;/ConfigurationGroup&gt;
+	  &lt;ConfigurationGroup name="client2"&gt;
+          &lt;ValueItems&gt;
+            &lt;ValueItem key="keya" value="abc" /&gt;
+            &lt;ValueItem key="key2" value="123" /&gt;
+          &lt;/ValueItems&gt;
+        &lt;/ConfigurationGroup&gt;
+      &lt;/Configs&gt;
+    &lt;/mysection&gt;
+  &lt;/myCustomGroup&gt;
+
+  &lt;testsection2&gt;
+    &lt;Configs&gt;
+      &lt;ConfigurationGroup name="clienta"&gt;
+        &lt;ValueItems&gt;
+          &lt;ValueItem key="key2" value="valueabc" /&gt;          
+        &lt;/ValueItems&gt;       
+      &lt;/ConfigurationGroup&gt;
+    &lt;/Configs&gt;
+  &lt;/testsection2&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>If the app wanted to read "client2"'s configuration it could do the following:</p>
+<pre><code>
+CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
+</pre></code>
+
+<p>To access a value it would use the index of the key:</p>
+
+<pre><code>
+string myVal = Configloader["keya"];
+</pre></code>
+
+<h3>About the examples</h3>
+
+<p>The console application "ExampleApp" shows the different ways the customConfiguration application can be used.  The examples include:</p>
+
+<ul>
+<li>Simply loading the configuration settings and manually getting a setting from it, (SimpleLoadingOfConfiguration.cs)</li>
+<li>Showing how the application will try and determine the custom section in the config file so you do not have to explicity declare it everytime (LoadingOfConfigurationByAllowingAppToDetermineConfigPath.cs).</li>
+<li>How to load multiple configuration sections at one time (LoadingMultipleConfigSections.cs)</li>
+<li>How to create more complex data structures in config, using inner collections (UsingInnerCollections.cs)</li>
+<li>How to load a different configuration file (LoadingAConfigFileThatIsNotTheDefaultConfig.cs)</li>
+<li>How to generate strongly typed objects automatically (ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfig)</li>
+<li>How to map configuration settings keys to the strongly typed object that have different property names (ExampleApp.MoreComplexExamples.MappingFieldsAutoGen)</li>
+</ul>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Customconfigurations maintained by <a href="https://github.com/twistedtwig">twistedtwig</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
