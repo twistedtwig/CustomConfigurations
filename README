@@ -1,6 +1,22 @@
 Custom Configurations:
 
-Allows the application to simplify the use of configuration settings.  For example if the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.
+Custom configurations is designed to reduce the repeative lines of code needed to get configuration settings into your application.  If there are 5 or 50 settings there doesn't need any extra code to get your settings.  It allows the application to simplify the use of configuration settings.  
+
+A simple but effective use is to have an object with N number of properties, such as:
+
+public class MyAppSettings
+{
+    public string Name { get; set; }
+    public string Location { get; set; }
+    public bool ShouldDoX { get; set; }
+    public int minValue { get; set; }
+}
+
+Then use the configuration loader to populate the values:
+
+MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
+
+Another example is when the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.
 
 At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).
 
