@@ -59,9 +59,9 @@ public class MyAppSettings
 
 <p>Then use the configuration loader to populate the values:</p>
 
-<pre><code>
+<pre  class="highlight">
 MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
-</code></pre>
+</pre>
 
 <h3>Multipe sections example</h3>
 
@@ -71,7 +71,7 @@ MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettin
 <p>At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).</p>
 
 <p>Here is an example configuration file:</p>
-<pre><code>
+<pre  class="highlight">
 &lt;configuration&gt;
   &lt;configSections&gt;
     &lt;section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" /&gt;
@@ -111,18 +111,18 @@ MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettin
     &lt;/Configs&gt;
   &lt;/testsection2&gt;
 &lt;/configuration&gt;
-</code></pre>
+</pre>
 
 <p>If the app wanted to read "client2"'s configuration it could do the following:</p>
-<pre><code>
+<pre  class="highlight">
 CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
-</pre></code>
+</pre>
 
 <p>To access a value it would use the index of the key:</p>
 
-<pre><code>
+<pre class="highlight">
 string myVal = Configloader["keya"];
-</pre></code>
+</pre>
 
 <h3>About the examples</h3>
 
