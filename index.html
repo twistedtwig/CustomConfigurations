@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Customconfigurations</title>
+    <title>Custom Configurations for .Net</title>
   </head>
 
   <body>
@@ -33,12 +33,11 @@
       <section id="main_content" class="inner">
         <h3>Welcome to GitHub Pages.</h3>
 
-<p>Custom configurations is designed to reduce the repeative lines of code needed to get configuration settings into your application.  If there are 5 or 50 settings there doesn't need any extra code to get your settings.  It allows the application to simplify the use of configuration settings.  A simple but effective use is to have an object with N number of properties, such as:</p>
+<p>Custom configurations is designed to reduce the repeative lines of code needed to get configuration settings into your application.  If there are 5 or 50 settings there doesn't need any extra code to get your settings.  It allows the application to simplify the use of configuration settings.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h3>Simple Example</h3>
+
+<p>A simple but effective use is to have an object with N number of properties, such as:</p>
 
 <pre><code>
 public class MyAppSettings{    public string Name { get; set; }    public string Location { get; set; }    public bool ShouldDoX { get; set; }    public int minValue { get; set; }}
@@ -50,21 +49,68 @@ public class MyAppSettings{    public string Name { get; set; }    public string
 MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
 </code></pre>
 
-<h3>Designer Templates</h3>
+<h3>Multipe sections example</h3>
 
 <p>Another example is when the app has multiple clients settings to be recorded a section for each can be defined and the values seperated out.  The config class allows easy access to a clients configuration and deals with the configuration hooking up in the background for you.</p>
 
 
 <p>At this point it is not possible to save back to the configuration file.  I have tried to get this to work across the board but failed misserably, will try to tackle this again at a later stage, (there are a few commented out sections and tests aimed at this in the committed code).</p>
-<h3>Rather Drive Stick?</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Here is an example configuration file:</p>
+<pre><code>
+<configuration>
+  <configSections>
+    <section name="testsection2" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+    <sectionGroup name="myCustomGroup">
+      <section name="mysection" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+    </sectionGroup>
+  </configSections>
 
-<h3>Authors and Contributors</h3>
+  <myCustomGroup>
+    <mysection>
+      <Configs>
+      <ConfigurationGroup name="client1">
+        <ValueItems>
+          <ValueItem key="key2" value="value2" />
+          <ValueItem key="key3" value="value3" />
+          <ValueItem key="key4" value="value4" />
+          <ValueItem key="key5" value="7" />
+          <ValueItem key="key6" value="0.6" />        
+      </ConfigurationGroup>
+	  <ConfigurationGroup name="client2">
+          <ValueItems>
+            <ValueItem key="keya" value="abc" />
+            <ValueItem key="key2" value="123" />
+          </ValueItems>
+        </ConfigurationGroup>
+      </Configs>
+    </mysection>
+  </myCustomGroup>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+  <testsection2>
+    <Configs>
+      <ConfigurationGroup name="clienta">
+        <ValueItems>
+          <ValueItem key="key2" value="valueabc" />          
+        </ValueItems>       
+      </ConfigurationGroup>
+    </Configs>
+  </testsection2>
+</configuration>
+</code></pre>
 
-<h3>Support or Contact</h3>
+<p>If the app wanted to read "client2"'s configuration it could do the following:</p>
+<pre><code>
+CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
+</pre></code>
+
+<p>To access a value it would use the index of the key:</p>
+
+<pre><code>
+string myVal = Configloader["keya"];
+</pre></code>
+
+
 
 <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact support@github.com and we’ll help you sort it out.</p>
       </section>
