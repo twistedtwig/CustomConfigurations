@@ -42,13 +42,13 @@ $ git checkout gh-pages
 
 <pre><code>
 public class MyAppSettings{    public string Name { get; set; }    public string Location { get; set; }    public bool ShouldDoX { get; set; }    public int minValue { get; set; }}
-</code</pre>
+</code></pre>
 
 <p>Then use the configuration loader to populate the values:</p>
 
 <pre><code>
 MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
-</code</pre>
+</code></pre>
 
 <h3>Designer Templates</h3>
 
