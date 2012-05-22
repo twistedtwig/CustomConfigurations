@@ -55,6 +55,9 @@
     <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\ConfigurationLoader.cs" />
     <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\DomainController.cs" />
     <Compile Include="MoreComplexExamples\AutoGenerateModelsFromConfig\DomainModel.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenWithNonEmptyConstructor\ConfigurationLoader.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenWithNonEmptyConstructor\DomainController.cs" />
+    <Compile Include="MoreComplexExamples\AutoGenWithNonEmptyConstructor\DomainModel.cs" />
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\ConfigurationLoader.cs" />
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\DomainController.cs" />
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\DomainModel.cs" />
@@ -76,6 +79,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="MoreComplexExamples\AutoGenerateModelsFromConfig\autogen.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MoreComplexExamples\AutoGenWithNonEmptyConstructor\autogenctor.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

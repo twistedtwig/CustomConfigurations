@@ -25,6 +25,8 @@ namespace ExampleApp
 
             MoreComplexExamples.AutoGenerateModelsFromConfigWithDefaultValues.DomainController autoGenWithDefaults = new MoreComplexExamples.AutoGenerateModelsFromConfigWithDefaultValues.DomainController();
 
+            MoreComplexExamples.AutoGenWithNonEmptyConstructor.DomainController autoGenWithNonEmptyCtor = new MoreComplexExamples.AutoGenWithNonEmptyConstructor.DomainController();
+
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();
