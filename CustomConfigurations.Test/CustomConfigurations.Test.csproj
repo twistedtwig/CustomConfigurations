@@ -53,10 +53,12 @@
   <ItemGroup>
     <Compile Include="Collections.cs" />
     <Compile Include="CollectionsGroup.cs" />
+    <Compile Include="DomainModels\ComplexDomainModel.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigSection.cs" />
     <Compile Include="ConfigurationSectionLoader.cs" />
-    <Compile Include="DomainModel.cs" />
+    <Compile Include="DomainModels\DefaultsDomainModel.cs" />
+    <Compile Include="DomainModels\DomainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueItems.cs" />
   </ItemGroup>

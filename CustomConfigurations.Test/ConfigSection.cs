@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CustomConfigurations.ObjectCreation;
+using CustomConfigurations.Test.DomainModels;
 using NUnit.Framework;
 
 namespace CustomConfigurations.Test
@@ -141,7 +143,6 @@ namespace CustomConfigurations.Test
             Assert.AreEqual("model", model.Name);
             Assert.IsTrue(model.CanExecute);
             Assert.AreEqual("domain model template desciption field", model.Description);
-            Assert.AreEqual(5, model.NumberUnits);
             Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
             Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
         }
@@ -152,12 +153,11 @@ namespace CustomConfigurations.Test
             CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
             Assert.IsNotNull(configSection);
 
-            DomainModel model = configSection.Create<DomainModel>(true);
+            DomainModel model = configSection.Create<DomainModel>(false);
 
             Assert.AreEqual("model", model.Name);
             Assert.IsTrue(model.CanExecute);
             Assert.AreEqual("domain model template desciption field", model.Description);
-            Assert.AreEqual(5, model.NumberUnits);
             Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
             Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
         }
@@ -171,7 +171,7 @@ namespace CustomConfigurations.Test
             IDictionary<string, string> mappings = new Dictionary<string, string>();
             mappings.Add("NoUnits", "NumberUnits");
 
-            DomainModel model = configSection.Create<DomainModel>(false, mappings);
+            DomainModel model = configSection.Create<DomainModel>(mappings, true);
 
             Assert.AreEqual("model", model.Name);
             Assert.IsTrue(model.CanExecute);
@@ -179,6 +179,62 @@ namespace CustomConfigurations.Test
             Assert.AreEqual(23, model.NumberUnits);
             Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
             Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+        }
+
+        [Test]
+        public void TestCanCreateObjectThatDoesntHaveEmptyConstructor()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            IDictionary<string, string> mappings = new Dictionary<string, string>();
+            mappings.Add("NoUnits", "NumberUnits");
+            mappings.Add("name", "Name");
+            mappings.Add("canExecute", "CanExecute");
+
+            ComplexDomainModel model = configSection.Create<ComplexDomainModel>(mappings, true);
+
+            Assert.AreEqual("model", model.GetResultOfConstructorSetName());
+            Assert.IsTrue(model.GetResultOfConstructorSetCanExecute());
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(23, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+        }
+
+        [Test]
+        public void TestCanCreateObjectThatHasDefaultValuesAssignedInConstructorAnyDontGetOverwrittenIfNoSettingFound()
+        {
+            DefaultsDomainModel model = new CustomConfigurations.Config("DefaultedTypedDataConfig").GetSection("model").Create<DefaultsDomainModel>();
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("My Default Description", model.Description);
+            Assert.AreEqual(5, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(3, model.MySecretNumber);
+        }
+
+        [Test]
+        public void TestCanCreateObjectWithDefaultValuesUsingObjectCreationSettingsCollection()
+        {
+            const string description = "This is my Test description";
+            const string numberUnitsStr = "4456";
+            const int numberUnitsInt = 4456;
+
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("MinDefaultedTypedDataConfig").GetSection("model");
+            ObjectCreationSettingsCollection settings = configSection.CreateCreationSettingsCollection();
+            settings.SetValue("NumberUnits", numberUnitsStr);
+            settings.SetValue("Description", description);
+
+            DefaultsDomainModel model = configSection.Create<DefaultsDomainModel>(settings);
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual(description, model.Description);
+            Assert.AreEqual(numberUnitsInt, model.NumberUnits);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(2, model.MySecretNumber);
         }
     }
 }

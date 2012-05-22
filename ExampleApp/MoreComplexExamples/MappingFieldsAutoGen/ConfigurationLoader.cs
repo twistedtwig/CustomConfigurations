@@ -13,7 +13,7 @@ namespace ExampleApp.MoreComplexExamples.MappingFieldsAutoGen
 
             return new Config(@"MoreComplexExamples\MappingFieldsAutoGen\mapping.config", "domainModelTemplate")
                 .GetSection("model")
-                .Create<AutoGenerateModelsFromConfig.DomainModel>(false, mappings);
+                .Create<AutoGenerateModelsFromConfig.DomainModel>(mappings, true);
         }
     }
 }

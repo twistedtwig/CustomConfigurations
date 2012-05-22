@@ -48,7 +48,12 @@
     <Compile Include="ConfigSection.cs" />
     <Compile Include="ConfigurationGroup.cs" />
     <Compile Include="ConfigurationSectionLoader.cs" />
-    <Compile Include="ObjectCreator.cs" />
+    <Compile Include="Mapping\ValueMapping.cs" />
+    <Compile Include="Mapping\MappingType.cs" />
+    <Compile Include="ObjectCreation\ObjectCreationAndPopulationFactory.cs" />
+    <Compile Include="ObjectCreation\ObjectCreationSettingType.cs" />
+    <Compile Include="ObjectCreation\ObjectCreationSettingItem.cs" />
+    <Compile Include="ObjectCreation\ObjectCreationSettingsCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueItems.cs" />
   </ItemGroup>

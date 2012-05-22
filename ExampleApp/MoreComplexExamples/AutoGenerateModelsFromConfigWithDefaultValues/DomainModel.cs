@@ -1,11 +1,11 @@
 ﻿
-namespace CustomConfigurations.Test
+namespace ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfigWithDefaultValues
 {
     public class DomainModel
     {
         public DomainModel()
         {
-            MySecretNumber = int.MinValue;
+            MySecretNumber = 444;
         }
 
         public string Name { get; set; }
@@ -16,10 +16,7 @@ namespace CustomConfigurations.Test
         public DomainModelType ModelType { get; set; }
         private int MySecretNumber { get; set; }
 
-        public int GetResultFromMySecretNumberPrivateSetter()
-        {
-            return MySecretNumber;
-        }
+        public int GetMySecretNumberValue { get { return MySecretNumber; } }
     }
 
     public enum DomainModelType

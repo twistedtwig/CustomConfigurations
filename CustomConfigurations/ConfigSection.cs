@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using CustomConfigurations.Mapping;
+using CustomConfigurations.ObjectCreation;
 
 namespace CustomConfigurations
 {
@@ -126,11 +128,6 @@ namespace CustomConfigurations
         }
 
 
-
-
-
-
-
         /// <summary>
         /// returns the parent object in the collection, will return null at the top level, (ConfigurationGroup).
         /// </summary>
@@ -192,22 +189,63 @@ namespace CustomConfigurations
         /// <returns></returns>
         public T Create<T>()
         {
-            return Create<T>(false);
+            return Create<T>(true);
         }
 
-        public T Create<T>(bool includePrivateorProtectedProperties)
+        public T Create<T>(bool onlySetPublicProperties)
         {
-            return Create<T>(includePrivateorProtectedProperties, null);
+            return Create<T>(null, onlySetPublicProperties);
         }
 
-        public T Create<T>(bool includePrivateorProtectedProperties, IDictionary<string, string> mappings)
+        public T Create<T>(IDictionary<string, string> mappings)
+        {            
+            return Create<T>(mappings, true);
+        }
+
+        public T Create<T>(IDictionary<string, string> mappings, bool onlySetPublicProperties)
+        {
+            return Create<T>(CreateCreationSettingsCollection(valuesAsDictionary, mappings, onlySetPublicProperties));
+        }
+
+        public T Create<T>(ObjectCreationSettingsCollection mappings)
+        {
+            if (mappings == null)
+                throw new ArgumentException("mappings is null");
+
+            return ObjectCreationAndPopulationFactory.Create<T>(mappings);
+        }
+    
+        protected ObjectCreationSettingsCollection CreateCreationSettingsCollection(IDictionary<string, string> configValues, IDictionary<string, string> mappings, bool onlySetPublicProperties)
         {
             if (!valuesAsDictionary.ContainsKey("Name") && !valuesAsDictionary.ContainsKey("name"))
             {
-                valuesAsDictionary.Add("Name", Name);
+                valuesAsDictionary.Add("Name", Name); 
             }
 
-            return ObjectCreator.Create<T>(includePrivateorProtectedProperties, valuesAsDictionary, mappings);
+            return new ObjectCreationSettingsCollection(mappings, configValues, onlySetPublicProperties);
         }
+
+        /// <summary>
+        /// If the user wants to access the ObjectCreationSettingsCollection object them selves then they should call this to get an instance of the settings.
+        /// This will contain the information gained from the config and allow any further setup to be done before creating their final type object.
+        /// will only set public properties.
+        /// </summary>
+        /// <returns></returns>
+        public ObjectCreationSettingsCollection CreateCreationSettingsCollection()
+        {
+            return CreateCreationSettingsCollection(true);
+        }
+
+        /// <summary>
+        /// If the user wants to access the ObjectCreationSettingsCollection object them selves then they should call this to get an instance of the settings.
+        /// This will contain the information gained from the config and allow any further setup to be done before creating their final type object.
+        /// </summary>
+        /// <param name="onlySetPublicProperties"></param>
+        /// <returns></returns>
+        public ObjectCreationSettingsCollection CreateCreationSettingsCollection(bool onlySetPublicProperties)
+        {
+            return CreateCreationSettingsCollection(valuesAsDictionary, null, onlySetPublicProperties);
+        }
+        
     }
 }
