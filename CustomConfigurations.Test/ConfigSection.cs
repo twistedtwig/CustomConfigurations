@@ -307,8 +307,28 @@ namespace CustomConfigurations.Test
                     Assert.AreEqual(test.Key3, "456");
                     Assert.IsTrue(string.IsNullOrEmpty(test.Key2));
                 }
-
             }
+        }
+
+        [Test]
+        public void TestCanInheritValuesFromParentWillNotOverwriteLocalValue()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("inheritanceSectionLocal").GetSection("clienta");
+            Assert.IsNotNull(configSection);
+
+            Assert.IsTrue(configSection.ContainsSubCollections);
+            Assert.AreEqual(1, configSection.ValuesAsDictionary.Count);
+            string globalKey = "mykey1";
+            Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey));
+
+            string globalValue = configSection.ValuesAsDictionary[globalKey];
+            Assert.IsFalse(string.IsNullOrEmpty(globalValue));
+
+            CustomConfigurations.ConfigSection childSection = configSection.Collections.GetCollection("child");
+            Assert.IsNotNull(childSection);
+            Assert.IsTrue(childSection.ValuesAsDictionary.ContainsKey(globalKey));
+            Assert.AreNotEqual(globalValue, childSection.ValuesAsDictionary[globalKey]);
+            Assert.AreEqual("123", childSection.ValuesAsDictionary[globalKey]);
         }
     }
 }
