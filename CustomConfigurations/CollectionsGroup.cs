@@ -10,9 +10,11 @@ namespace CustomConfigurations
         private CollectionsGroupCollection Collections;
         private IList<string> collectionNames = new List<string>();
         private ConfigSection Parent;
+        private readonly bool AllowValueInheritance;
 
-        internal CollectionsGroup(CollectionsGroupCollection collections, ConfigSection parent)
+        internal CollectionsGroup(CollectionsGroupCollection collections, ConfigSection parent, bool allowValueInheritance)
         {
+            AllowValueInheritance = allowValueInheritance;
             if (collections == null)
             {
                 throw new ArgumentException("CollectionsGroupCollection object was null.");
@@ -62,12 +64,12 @@ namespace CustomConfigurations
                 return null;
             }
 
-            return new ConfigSection(Collections[name], Parent);
+            return new ConfigSection(Collections[name], Parent, AllowValueInheritance);
         }
 
         public IEnumerable<ConfigSection> GetCollections()
         {
-            return from ConfigurationGroupElement element in Collections select new ConfigSection(element, Parent);
+            return from ConfigurationGroupElement element in Collections select new ConfigSection(element, Parent, AllowValueInheritance);
         }
     }
 }

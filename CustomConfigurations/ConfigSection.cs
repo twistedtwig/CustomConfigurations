@@ -11,11 +11,13 @@ namespace CustomConfigurations
         private ConfigurationGroupElement ConfigElement;
         private IDictionary<string, string> valuesAsDictionary = new Dictionary<string, string>();
         private ConfigSection ParentElement;
+        private readonly bool AllowValueInheritance;
 
-        internal ConfigSection(ConfigurationGroupElement configElement) : this(configElement, null) { }
+        internal ConfigSection(ConfigurationGroupElement configElement, bool allowValueInheritance = true) : this(configElement, null, allowValueInheritance) { }
 
-        internal ConfigSection(ConfigurationGroupElement configElement, ConfigSection parent)
+        internal ConfigSection(ConfigurationGroupElement configElement, ConfigSection parent, bool allowValueInheritance)
         {
+            AllowValueInheritance = allowValueInheritance;
             ConfigElement = configElement;
             foreach (ValueItemElement element in configElement.ValueItemCollection)
             {
@@ -27,6 +29,18 @@ namespace CustomConfigurations
             }
 
             ParentElement = parent;
+
+            //add values from parent
+            if (allowValueInheritance && parent != null)
+            {
+                foreach (KeyValuePair<string, string> parentValue in parent.valuesAsDictionary)
+                {
+                    if (!ValuesAsDictionary.ContainsKey(parentValue.Key))
+                    {
+                        ValuesAsDictionary.Add(parentValue.Key, parentValue.Value);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -120,7 +134,7 @@ namespace CustomConfigurations
             {
                 if (collections == null && ContainsSubCollections)
                 {
-                    collections = new CollectionsGroup(ConfigElement.InnerCollections, this);
+                    collections = new CollectionsGroup(ConfigElement.InnerCollections, this, AllowValueInheritance);
                 }
 
                 return collections;

@@ -21,29 +21,31 @@ namespace CustomConfigurations
     {
         private ConfigurationSectionLoader ConfigSectionLoader;
         private  IList<string> ConfigSectionNames = new List<string>();
-        
+        private readonly bool AllowValueInheritance;
 
         /// <summary>
         /// Default constructor will give a blank configuration path and section, it will try and determine a the config path and choose the first valid section it can find.
         /// </summary>
-        public Config() : this(string.Empty) { }
+        public Config(bool allowValueInheritance = true) : this(string.Empty, allowValueInheritance) { }
 
         /// <summary>
-        /// Constructor with the full confiuration path given.
+        /// Constructor with the full configuration path given.
         /// </summary>
         /// <exception cref="ArgumentException">error if section is null or empty string</exception>
         /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
-        /// <param name="configurationPath"></param>
-        public Config(string configurationPath) : this(string.Empty, configurationPath)
+        /// <param name="configurationPath">The xml path in the config file.</param>
+        /// <param name="allowValueInheritance"> </param>
+        public Config(string configurationPath, bool allowValueInheritance = true) : this(string.Empty, configurationPath, allowValueInheritance)
         { }
 
-        public Config(string pathToConfigFile, string configurationPath)
+        public Config(string pathToConfigFile, string configurationPath, bool allowValueInheritance = true)
         {
+            AllowValueInheritance = allowValueInheritance;
             string filePath = pathToConfigFile.Trim();
             if (!string.IsNullOrEmpty(configurationPath))
             {
                 //created the config SectionLoader with the given configuration path.
-                if (CreateConfigurationLoaderObject(filePath, configurationPath))
+                if (CreateConfigurationLoaderObject(filePath, configurationPath, allowValueInheritance))
                 {
                     return;
                 }
@@ -55,7 +57,7 @@ namespace CustomConfigurations
                     if (!string.IsNullOrEmpty(path))
                     {
                         //created the config SectionLoader with the given configuration path.
-                        if (CreateConfigurationLoaderObject(filePath, path))
+                        if (CreateConfigurationLoaderObject(filePath, path, allowValueInheritance))
                         {
                             return;
                         }
@@ -197,8 +199,9 @@ namespace CustomConfigurations
         /// </summary>
         /// <param name="pathToConfigFile"> </param>
         /// <param name="configPath">path to the configuration section in the config file.</param>
+        /// <param name="allowValueInheritance">should all child configsection's elements inherit from their parent?</param>
         /// <returns>If the configuration Loader was created successfully, doesn't gaurantee items have been found, only that it is not null.</returns>
-        private bool CreateConfigurationLoaderObject(string pathToConfigFile, string configPath)
+        private bool CreateConfigurationLoaderObject(string pathToConfigFile, string configPath, bool allowValueInheritance)
         {
             if (string.IsNullOrEmpty(configPath))
             {
@@ -225,7 +228,7 @@ namespace CustomConfigurations
                     ConfigSectionNames.Add(configGroup.Name);
                 }
 
-                SetIndexesForConfigGroupCollectionRecursively(ConfigSectionLoader.ConfigGroups);
+                SetIndexesForConfigGroupCollectionRecursively(ConfigSectionLoader.ConfigGroups);                
             }
             catch (ConfigurationErrorsException)
             {
@@ -239,6 +242,8 @@ namespace CustomConfigurations
             }
             return ConfigSectionLoader != null;
         }
+
+        
       
         private void SetIndexesForConfigGroupCollectionRecursively(ConfigurationGroupCollection configGroupCollection)
         {
@@ -300,7 +305,7 @@ namespace CustomConfigurations
         /// <returns></returns>
         public ConfigSection GetSection(string sectionName)
         {
-            return !ConfigSectionNames.Contains(sectionName) ? null : new ConfigSection(ConfigSectionLoader.ConfigGroups[sectionName]);
+            return !ConfigSectionNames.Contains(sectionName) ? null : new ConfigSection(ConfigSectionLoader.ConfigGroups[sectionName], AllowValueInheritance);
         }
 
         /// <summary>

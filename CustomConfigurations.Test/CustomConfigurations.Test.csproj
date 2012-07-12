@@ -59,6 +59,7 @@
     <Compile Include="ConfigurationSectionLoader.cs" />
     <Compile Include="DomainModels\DefaultsDomainModel.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
+    <Compile Include="DomainModels\InheritanceTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueItems.cs" />
   </ItemGroup>

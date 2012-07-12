@@ -56,7 +56,7 @@ namespace CustomConfigurations.ObjectCreation
                     {
                         SettingItems.First(x => x.OriginalName.Equals(valuePair.Key)).MapToName = valuePair.Value;  
                     }
-                    else if (ContainsMapToName(valuePair.Value))
+                    if (ContainsMapToName(valuePair.Value))
                     {
                         SettingItems.First(x => x.MapToName.Equals(valuePair.Value)).OriginalName = valuePair.Key;                                                                        
                     }

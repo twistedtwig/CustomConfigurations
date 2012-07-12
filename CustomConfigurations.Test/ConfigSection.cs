@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CustomConfigurations.ObjectCreation;
 using CustomConfigurations.Test.DomainModels;
 using NUnit.Framework;
@@ -235,6 +234,81 @@ namespace CustomConfigurations.Test
             Assert.AreEqual(numberUnitsInt, model.NumberUnits);
             Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
             Assert.AreEqual(2, model.MySecretNumber);
+        }
+
+        [Test]
+        public void TestCanInheritValuesFromParent()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("inheritanceSection").GetSection("clienta");
+            Assert.IsNotNull(configSection);
+
+            Assert.IsTrue(configSection.ContainsSubCollections);
+            Assert.AreEqual(1, configSection.ValuesAsDictionary.Count);
+            string globalKey = "mykey1";
+            Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey));
+
+            string globalValue = configSection.ValuesAsDictionary[globalKey];
+            Assert.IsFalse(string.IsNullOrEmpty(globalValue));
+
+            foreach (CustomConfigurations.ConfigSection childSection in configSection.Collections.GetCollections())
+            {
+                Assert.IsTrue(childSection.ValuesAsDictionary.ContainsKey(globalKey));
+                Assert.AreEqual(globalValue, childSection.ValuesAsDictionary[globalKey]);
+            }
+        }
+
+        [Test]
+        public void TestCanInheritValuesFromParentCanBeTurnedOff()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("inheritanceSection", false).GetSection("clienta");
+            Assert.IsNotNull(configSection);
+
+            Assert.IsTrue(configSection.ContainsSubCollections);
+            Assert.AreEqual(1, configSection.ValuesAsDictionary.Count);
+            string globalKey = "mykey1";
+            Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey));
+
+            string globalValue = configSection.ValuesAsDictionary[globalKey];
+            Assert.IsFalse(string.IsNullOrEmpty(globalValue));
+
+            foreach (CustomConfigurations.ConfigSection childSection in configSection.Collections.GetCollections())
+            {
+                Assert.IsFalse(childSection.ValuesAsDictionary.ContainsKey(globalKey));
+            }
+        }
+
+        [Test]
+        public void TestCanInheritValuesFromParentWenUsingGenericCreate()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("inheritanceSection").GetSection("clienta");
+            Assert.IsNotNull(configSection);
+
+            Assert.IsTrue(configSection.ContainsSubCollections);
+            Assert.AreEqual(1, configSection.ValuesAsDictionary.Count);
+            string globalKey = "mykey1";
+            Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey));
+
+            string globalValue = configSection.ValuesAsDictionary[globalKey];
+            Assert.IsFalse(string.IsNullOrEmpty(globalValue));            
+
+            foreach (CustomConfigurations.ConfigSection childSection in configSection.Collections.GetCollections())
+            {
+                InheritanceTester test = childSection.Create<InheritanceTester>();
+                if (test.Name.Equals("child1"))
+                {
+                    Assert.AreEqual(test.mykey1, globalValue);
+                    Assert.AreEqual(test.Key2, "123");
+                    Assert.IsTrue(string.IsNullOrEmpty(test.Key3));
+                }
+
+                if (test.Name.Equals("child2"))
+                {
+                    Assert.AreEqual(test.mykey1, globalValue);
+                    Assert.AreEqual(test.Key3, "456");
+                    Assert.IsTrue(string.IsNullOrEmpty(test.Key2));
+                }
+
+            }
         }
     }
 }
