@@ -13,7 +13,7 @@ namespace CustomConfigurations
         private ConfigSection ParentElement;
         private readonly bool AllowValueInheritance;
 
-        internal ConfigSection(ConfigurationGroupElement configElement, bool allowValueInheritance = true) : this(configElement, null, allowValueInheritance) { }
+        internal ConfigSection(ConfigurationGroupElement configElement, bool allowValueInheritance) : this(configElement, null, allowValueInheritance) { }
 
         internal ConfigSection(ConfigurationGroupElement configElement, ConfigSection parent, bool allowValueInheritance)
         {

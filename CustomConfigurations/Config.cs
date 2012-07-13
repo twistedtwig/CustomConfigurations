@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Configuration;
 using System.Xml.XPath;
 
 namespace CustomConfigurations
@@ -19,6 +17,7 @@ namespace CustomConfigurations
     /// </summary>
     public class Config : IDisposable
     {
+        private readonly string ConfigurationPath;
         private ConfigurationSectionLoader ConfigSectionLoader;
         private  IList<string> ConfigSectionNames = new List<string>();
         private readonly bool AllowValueInheritance;
@@ -26,7 +25,28 @@ namespace CustomConfigurations
         /// <summary>
         /// Default constructor will give a blank configuration path and section, it will try and determine a the config path and choose the first valid section it can find.
         /// </summary>
-        public Config(bool allowValueInheritance = true) : this(string.Empty, allowValueInheritance) { }
+        public Config() : this(string.Empty, true) { }
+        public Config(bool allowValueInheritance) : this(string.Empty, allowValueInheritance) { }
+
+        /// <summary>
+        /// Constructor with the full configuration path given.
+        /// </summary>
+        /// <exception cref="ArgumentException">error if section is null or empty string</exception>
+        /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
+        /// <param name="pathToConfigFile"> </param>
+        /// <param name="configurationPath">The xml path in the config file.</param>
+        public Config(string pathToConfigFile, string configurationPath) : this(pathToConfigFile, configurationPath, true)
+        {
+        }
+
+        /// <summary>
+        /// Constructor with the full configuration path given.
+        /// </summary>
+        /// <exception cref="ArgumentException">error if section is null or empty string</exception>
+        /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
+        /// <param name="configurationPath">The xml path in the config file.</param>
+        public Config(string configurationPath) : this(string.Empty, configurationPath, true)
+        { }
 
         /// <summary>
         /// Constructor with the full configuration path given.
@@ -35,10 +55,10 @@ namespace CustomConfigurations
         /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
         /// <param name="configurationPath">The xml path in the config file.</param>
         /// <param name="allowValueInheritance"> </param>
-        public Config(string configurationPath, bool allowValueInheritance = true) : this(string.Empty, configurationPath, allowValueInheritance)
+        public Config(string configurationPath, bool allowValueInheritance) : this(string.Empty, configurationPath, allowValueInheritance)
         { }
 
-        public Config(string pathToConfigFile, string configurationPath, bool allowValueInheritance = true)
+        public Config(string pathToConfigFile, string configurationPath, bool allowValueInheritance)
         {
             AllowValueInheritance = allowValueInheritance;
             string filePath = pathToConfigFile.Trim();
