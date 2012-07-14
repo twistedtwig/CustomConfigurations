@@ -1,4 +1,5 @@
 ﻿using System;
+using ExampleApp.MoreComplexExamples.ValueInheritance;
 
 namespace ExampleApp
 {
@@ -27,6 +28,7 @@ namespace ExampleApp
 
             MoreComplexExamples.AutoGenWithNonEmptyConstructor.DomainController autoGenWithNonEmptyCtor = new MoreComplexExamples.AutoGenWithNonEmptyConstructor.DomainController();
 
+            MoreComplexExamples.ValueInheritance.DomainController inHeritanceExample = new DomainController();
 
             Console.WriteLine("all examples run, press any key to exit");
             Console.ReadKey();

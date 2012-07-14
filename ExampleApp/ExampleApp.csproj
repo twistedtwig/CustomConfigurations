@@ -61,6 +61,9 @@
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\ConfigurationLoader.cs" />
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\DomainController.cs" />
     <Compile Include="MoreComplexExamples\MappingFieldsAutoGen\DomainModel.cs" />
+    <Compile Include="MoreComplexExamples\ValueInheritance\ConfigurationLoader.cs" />
+    <Compile Include="MoreComplexExamples\ValueInheritance\DomainController.cs" />
+    <Compile Include="MoreComplexExamples\ValueInheritance\Task.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\ConfigurationLoader.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainController.cs" />
     <Compile Include="MoreComplexExamples\WrappingConfigurationIntoALoader\DomainModel.cs" />
@@ -74,7 +77,7 @@
     <None Include="App.Testfile.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="MoreComplexExamples\AutoGenerateModelsFromConfigWithDefaultValues\autogendefaults.config">
+    <None Include="MoreComplexExamples\ValueInheritance\ValueInheritance.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -87,6 +90,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="MoreComplexExamples\MappingFieldsAutoGen\mapping.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MoreComplexExamples\AutoGenerateModelsFromConfigWithDefaultValues\autogendefaults.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
