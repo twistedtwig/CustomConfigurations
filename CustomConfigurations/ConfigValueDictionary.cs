@@ -14,7 +14,17 @@ namespace CustomConfigurations
             return Mappings.ContainsKey(key);
         }
 
-        public void Add(string key, string value,  bool overRideExisting = false, bool inherited = false)
+        public void Add(string key, string value)
+        {
+            Add(key, value, false);
+        }
+
+        public void Add(string key, string value,  bool overRideExisting)
+        {
+            Add(key, value, overRideExisting, false);
+        }
+        
+        public void Add(string key, string value,  bool overRideExisting, bool inherited)
         {
             if (Mappings.ContainsKey(key) && !overRideExisting) { return; }
 
