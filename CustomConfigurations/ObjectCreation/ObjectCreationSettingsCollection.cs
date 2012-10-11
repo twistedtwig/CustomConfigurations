@@ -11,16 +11,16 @@ namespace CustomConfigurations.ObjectCreation
         /// <summary>
         /// No mappings given to the constructor, will only set public properties
         /// </summary>
-        internal ObjectCreationSettingsCollection() : this(new Dictionary<string, string>(), true) { }
+        internal ObjectCreationSettingsCollection() : this(new ConfigValueDictionary(), true) { }
         /// <summary>
         /// Maps the dictionry key to the dictionary value for a field, only set public properties.
         /// </summary>
         /// <param name="fieldMappings"></param>
-        internal ObjectCreationSettingsCollection(IDictionary<string, string> fieldMappings) : this(fieldMappings, true) { }
+        internal ObjectCreationSettingsCollection(ConfigValueDictionary fieldMappings) : this(fieldMappings, true) { }
 
-        internal ObjectCreationSettingsCollection(IDictionary<string, string> fieldMappings, bool onlySetPublicProperties) : this(fieldMappings, null, onlySetPublicProperties) { }
+        internal ObjectCreationSettingsCollection(ConfigValueDictionary fieldMappings, bool onlySetPublicProperties) : this(fieldMappings, null, onlySetPublicProperties) { }
 
-        internal ObjectCreationSettingsCollection(IEnumerable<KeyValuePair<string, string>> fieldMappings, IEnumerable<KeyValuePair<string, string>> fieldValues, bool onlySetPublicProperties)
+        internal ObjectCreationSettingsCollection(ConfigValueDictionary fieldMappings, ConfigValueDictionary fieldValues, bool onlySetPublicProperties)
         {
             OnlySetPublicProperties = onlySetPublicProperties;
             SettingItems = new List<ObjectCreationSettingItem>();
@@ -46,19 +46,19 @@ namespace CustomConfigurations.ObjectCreation
             SettingItems = mappings ?? new List<ObjectCreationSettingItem>();
         }
 
-        private void SetupMappings(IEnumerable<KeyValuePair<string, string>> fieldMappings)
+        private void SetupMappings(ConfigValueDictionary fieldMappings)
         {
-            foreach (KeyValuePair<string, string> valuePair in fieldMappings)
+            foreach (ConfigValueItem item in fieldMappings)
             {
-                if (!string.IsNullOrEmpty(valuePair.Key) && !string.IsNullOrEmpty(valuePair.Value))
+                if (!string.IsNullOrEmpty(item.Key) && !string.IsNullOrEmpty(item.Value))
                 {
-                    if (ContainsOriginalMappingName(valuePair.Key))
+                    if (ContainsOriginalMappingName(item.Key))
                     {
-                        SettingItems.First(x => x.OriginalName.Equals(valuePair.Key)).MapToName = valuePair.Value;  
+                        SettingItems.First(x => x.OriginalName.Equals(item.Key)).MapToName = item.Value;  
                     }
-                    if (ContainsMapToName(valuePair.Value))
+                    if (ContainsMapToName(item.Value))
                     {
-                        SettingItems.First(x => x.MapToName.Equals(valuePair.Value)).OriginalName = valuePair.Key;                                                                        
+                        SettingItems.First(x => x.MapToName.Equals(item.Value)).OriginalName = item.Key;                                                                        
                     }
                     else
                     {
@@ -66,8 +66,8 @@ namespace CustomConfigurations.ObjectCreation
                             (
                                 new ObjectCreationSettingItem()
                                 {
-                                    OriginalName = valuePair.Key,
-                                    MapToName = valuePair.Value,
+                                    OriginalName = item.Key,
+                                    MapToName = item.Value,
                                     CreationSettingType = ObjectCreationSettingType.ConstructorOrProperty
                                 }
                             )
@@ -77,22 +77,22 @@ namespace CustomConfigurations.ObjectCreation
             }
         }
 
-        private void SetupValues(IEnumerable<KeyValuePair<string, string>> fieldValues)
+        private void SetupValues(ConfigValueDictionary fieldValues)
         {
-            foreach (KeyValuePair<string, string> valuePair in fieldValues)
+            foreach (ConfigValueItem item in fieldValues)
             {
-                if (!string.IsNullOrEmpty(valuePair.Key))
+                if (!string.IsNullOrEmpty(item.Key))
                 {
-                    if (!ContainsOriginalMappingName(valuePair.Key))
+                    if (!ContainsOriginalMappingName(item.Key))
                     {
                         SettingItems.Add(
                             (
                                 new ObjectCreationSettingItem()
                                     {
-                                        OriginalName = valuePair.Key,
-                                        MapToName = valuePair.Key,
-                                        DefaultValue = valuePair.Value,
-                                        OriginalValue = valuePair.Value,
+                                        OriginalName = item.Key,
+                                        MapToName = item.Key,
+                                        DefaultValue = item.Value,
+                                        OriginalValue = item.Value,
                                         CreationSettingType = ObjectCreationSettingType.ConstructorOrProperty
                                     }
                             )
@@ -101,7 +101,7 @@ namespace CustomConfigurations.ObjectCreation
                     }
                     else
                     {
-                        SetValue(valuePair.Key, valuePair.Value);
+                        SetValue(item.Key, item.Value);
                     }
                 }
             }

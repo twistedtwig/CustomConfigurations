@@ -48,6 +48,8 @@
     <Compile Include="ConfigSection.cs" />
     <Compile Include="ConfigurationGroup.cs" />
     <Compile Include="ConfigurationSectionLoader.cs" />
+    <Compile Include="ConfigValueDictionary.cs" />
+    <Compile Include="ConfigValueItem.cs" />
     <Compile Include="Mapping\ValueMapping.cs" />
     <Compile Include="Mapping\MappingType.cs" />
     <Compile Include="ObjectCreation\ObjectCreationAndPopulationFactory.cs" />

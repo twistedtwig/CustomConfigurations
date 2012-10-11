@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CustomConfigurations.ObjectCreation;
 using CustomConfigurations.Test.DomainModels;
 using NUnit.Framework;
@@ -80,7 +81,7 @@ namespace CustomConfigurations.Test
             ConfigLoader = new CustomConfigurations.Config("myCustomGroup/mysection");
             Section = ConfigLoader.GetSection("client1");
 
-            IDictionary<string, string> dictionary = Section.ValuesAsDictionary;
+            ConfigValueDictionary dictionary = Section.ValuesAsDictionary;
             Assert.IsNotNull(dictionary);
             Assert.AreEqual(5, dictionary.Count);
 
@@ -167,7 +168,7 @@ namespace CustomConfigurations.Test
             CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
             Assert.IsNotNull(configSection);
 
-            IDictionary<string, string> mappings = new Dictionary<string, string>();
+            ConfigValueDictionary mappings = new ConfigValueDictionary();
             mappings.Add("NoUnits", "NumberUnits");
 
             DomainModel model = configSection.Create<DomainModel>(mappings, true);
@@ -186,7 +187,7 @@ namespace CustomConfigurations.Test
             CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
             Assert.IsNotNull(configSection);
 
-            IDictionary<string, string> mappings = new Dictionary<string, string>();
+            ConfigValueDictionary mappings = new ConfigValueDictionary();
             mappings.Add("NoUnits", "NumberUnits");
             mappings.Add("name", "Name");
             mappings.Add("canExecute", "CanExecute");
@@ -317,7 +318,7 @@ namespace CustomConfigurations.Test
             Assert.IsNotNull(configSection);
 
             Assert.IsTrue(configSection.ContainsSubCollections);
-            Assert.AreEqual(1, configSection.ValuesAsDictionary.Count);
+            Assert.AreEqual(2, configSection.ValuesAsDictionary.Count);
             string globalKey = "mykey1";
             Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey));
 
@@ -329,6 +330,36 @@ namespace CustomConfigurations.Test
             Assert.IsTrue(childSection.ValuesAsDictionary.ContainsKey(globalKey));
             Assert.AreNotEqual(globalValue, childSection.ValuesAsDictionary[globalKey]);
             Assert.AreEqual("123", childSection.ValuesAsDictionary[globalKey]);
+        }
+
+        [Test]
+        public void TestInheritedFlagIsSetCorrectly()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("inheritanceSectionLocal").GetSection("clienta");
+            Assert.IsNotNull(configSection);
+
+            string globalKey1 = "mykey1";
+            string globalKey2 = "globalkey";
+            Assert.IsTrue(configSection.ValuesAsDictionary.ContainsKey(globalKey1));
+            string globalValue = configSection.ValuesAsDictionary[globalKey1];
+            Assert.IsFalse(string.IsNullOrEmpty(globalValue));
+
+            CustomConfigurations.ConfigSection childSection = configSection.Collections.GetCollection("child");
+            Assert.IsNotNull(childSection);
+            Assert.IsTrue(childSection.ValuesAsDictionary.ContainsKey(globalKey1));
+            Assert.AreNotEqual(globalValue, childSection.ValuesAsDictionary[globalKey1]);
+            Assert.AreEqual("123", childSection.ValuesAsDictionary[globalKey1]);
+
+            ConfigValueDictionary values = childSection.ValuesAsDictionary;
+            Assert.AreEqual(3, values.Count);
+
+            string childKey = "mykey2";
+            Assert.IsTrue(childSection.ValuesAsDictionary.ContainsKey(childKey));
+            Assert.IsFalse(values.IsInherited(globalKey1));
+            Assert.IsFalse(values.IsInherited(childKey));
+            Assert.IsTrue(values.IsInherited(globalKey2));
+
+
         }
     }
 }

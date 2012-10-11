@@ -8,8 +8,8 @@ namespace ExampleApp.MoreComplexExamples.AutoGenWithNonEmptyConstructor
         public static DomainModel LoadDomainModelTemplate()
         {
             ConfigSection configSection = new Config(@"MoreComplexExamples\AutoGenWithNonEmptyConstructor\autogenctor.config", "domainModelTemplate").GetSection("model");
-            
-            IDictionary<string,string> mappings = new Dictionary<string, string>();
+
+            ConfigValueDictionary mappings = new ConfigValueDictionary();
             mappings.Add("mySecretNum", "MySecretNumber");  //pass in the param name for the constructor and the key of the corresponding ValueItem from config
             mappings.Add("numberUnits", "NumberUnits");    //remember that all params are case sensitive
 

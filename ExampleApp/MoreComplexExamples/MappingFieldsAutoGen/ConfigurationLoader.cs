@@ -8,7 +8,7 @@ namespace ExampleApp.MoreComplexExamples.MappingFieldsAutoGen
 
         public static AutoGenerateModelsFromConfig.DomainModel LoadDomainModelTemplate()
         {
-            IDictionary<string, string> mappings = new Dictionary<string, string>();
+            ConfigValueDictionary mappings = new ConfigValueDictionary();
             mappings.Add("NoUnits", "NumberUnits");
 
             return new Config(@"MoreComplexExamples\MappingFieldsAutoGen\mapping.config", "domainModelTemplate")

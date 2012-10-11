@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using CustomConfigurations.Mapping;
 using CustomConfigurations.ObjectCreation;
 
 namespace CustomConfigurations
@@ -9,7 +8,7 @@ namespace CustomConfigurations
     public class ConfigSection
     {
         private ConfigurationGroupElement ConfigElement;
-        private IDictionary<string, string> valuesAsDictionary = new Dictionary<string, string>();
+        private ConfigValueDictionary valuesAsDictionary = new ConfigValueDictionary();
         private ConfigSection ParentElement;
         private readonly bool AllowValueInheritance;
 
@@ -33,12 +32,9 @@ namespace CustomConfigurations
             //add values from parent
             if (allowValueInheritance && parent != null)
             {
-                foreach (KeyValuePair<string, string> parentValue in parent.valuesAsDictionary)
+                foreach (ConfigValueItem parentValue in parent.valuesAsDictionary)
                 {
-                    if (!ValuesAsDictionary.ContainsKey(parentValue.Key))
-                    {
-                        ValuesAsDictionary.Add(parentValue.Key, parentValue.Value);
-                    }
+                    ValuesAsDictionary.Add(parentValue.Key, parentValue.Value, false, true);
                 }
             }
         }
@@ -111,7 +107,7 @@ namespace CustomConfigurations
         /// <summary>
         /// Returns all the values as a dictionary.
         /// </summary>
-        public IDictionary<string, string> ValuesAsDictionary
+        public ConfigValueDictionary ValuesAsDictionary
         {
             get { return valuesAsDictionary; }
         }
@@ -211,12 +207,12 @@ namespace CustomConfigurations
             return Create<T>(null, onlySetPublicProperties);
         }
 
-        public T Create<T>(IDictionary<string, string> mappings)
+        public T Create<T>(ConfigValueDictionary mappings)
         {            
             return Create<T>(mappings, true);
         }
 
-        public T Create<T>(IDictionary<string, string> mappings, bool onlySetPublicProperties)
+        public T Create<T>(ConfigValueDictionary mappings, bool onlySetPublicProperties)
         {
             return Create<T>(CreateCreationSettingsCollection(valuesAsDictionary, mappings, onlySetPublicProperties));
         }
@@ -228,8 +224,8 @@ namespace CustomConfigurations
 
             return ObjectCreationAndPopulationFactory.Create<T>(mappings);
         }
-    
-        protected ObjectCreationSettingsCollection CreateCreationSettingsCollection(IDictionary<string, string> configValues, IDictionary<string, string> mappings, bool onlySetPublicProperties)
+
+        protected ObjectCreationSettingsCollection CreateCreationSettingsCollection(ConfigValueDictionary configValues, ConfigValueDictionary mappings, bool onlySetPublicProperties)
         {
             if (!valuesAsDictionary.ContainsKey("Name") && !valuesAsDictionary.ContainsKey("name"))
             {
