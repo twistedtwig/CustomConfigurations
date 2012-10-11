@@ -3,7 +3,9 @@ namespace CustomConfigurations
 {
     public class ConfigValueItem
     {
-        public ConfigValueItem(string key, string value, bool inherited = false)
+        public ConfigValueItem(string key, string value) : this(key, value, false) { }
+
+        public ConfigValueItem(string key, string value, bool inherited)
         {
             Key = key;
             Value = value;
