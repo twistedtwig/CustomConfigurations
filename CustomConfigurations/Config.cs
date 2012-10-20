@@ -95,8 +95,7 @@ namespace CustomConfigurations
         /// <returns></returns>
         private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile)
         {
-            string configFileLocation = String.Empty;
-            string processName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+            string configFileLocation = String.Empty;            
             if (!string.IsNullOrEmpty(pathToConfigFile))
             {
                 configFileLocation = pathToConfigFile.Trim();
@@ -107,7 +106,7 @@ namespace CustomConfigurations
             }
             else
             {
-                throw new ArgumentException("can not determine the path to the configuration elements when running as a web application if the file path is not given.");
+                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config");
             }
 
             if (!File.Exists(configFileLocation))
@@ -146,8 +145,7 @@ namespace CustomConfigurations
         {
             if (sectionGroupIterator.Count == 0)
             {
-                throw new ApplicationException(
-                    "unable to find the configuration sectionGroup within the applicaiton config file.");
+                throw new ApplicationException("unable to find the configuration sectionGroup within the applicaiton config file.");
             }
 
             while (sectionGroupIterator.MoveNext())
