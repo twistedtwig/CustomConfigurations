@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml.XPath;
 
 namespace CustomConfigurations
@@ -61,7 +60,7 @@ namespace CustomConfigurations
         public Config(string pathToConfigFile, string configurationPath, bool allowValueInheritance)
         {
             AllowValueInheritance = allowValueInheritance;
-            string filePath = pathToConfigFile.Trim();
+            var filePath = pathToConfigFile.Trim();
             if (!string.IsNullOrEmpty(configurationPath))
             {
                 //created the config SectionLoader with the given configuration path.
@@ -95,40 +94,47 @@ namespace CustomConfigurations
         /// <returns></returns>
         private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile)
         {
-            string configFileLocation = String.Empty;            
+            var configFileLocation = String.Empty;            
             if (!string.IsNullOrEmpty(pathToConfigFile))
             {
                 configFileLocation = pathToConfigFile.Trim();
             }
-            else if (HttpContext.Current == null) //if not running a web App
+            try
             {
                 configFileLocation = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
             }
-            else
+            catch { /*  tried to open as stand alone app  */ }
+
+            if (!File.Exists(configFileLocation))
             {
-                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config");
+                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.config");                
             }
 
+            if (!File.Exists(configFileLocation))
+            {
+                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config");                
+            }
+                
             if (!File.Exists(configFileLocation))
             {
                 throw new FileNotFoundException(configFileLocation);
             }
             
-            string fullApplicationName = typeof (ConfigurationSectionLoader).FullName;
-            string fullApplicationAssembly = typeof(ConfigurationSectionLoader).Assembly.ToString().Substring(0, typeof(ConfigurationSectionLoader).Assembly.ToString().IndexOf(",", StringComparison.InvariantCultureIgnoreCase));
-            string configLoaderRegexString = fullApplicationName + @",[\s]{0,1}" + fullApplicationAssembly;
-            Regex configRegex = new Regex(configLoaderRegexString);
+            var fullApplicationName = typeof (ConfigurationSectionLoader).FullName;
+            var fullApplicationAssembly = typeof(ConfigurationSectionLoader).Assembly.ToString().Substring(0, typeof(ConfigurationSectionLoader).Assembly.ToString().IndexOf(",", StringComparison.InvariantCultureIgnoreCase));
+            var configLoaderRegexString = fullApplicationName + @",[\s]{0,1}" + fullApplicationAssembly;
+            var configRegex = new Regex(configLoaderRegexString);
 
-            XPathDocument doc = new XPathDocument(configFileLocation);
-            XPathNavigator nav = doc.CreateNavigator();
+            var doc = new XPathDocument(configFileLocation);
+            var nav = doc.CreateNavigator();
 
-            XPathNodeIterator sectionIterator = nav.Select(@"configuration/configSections");
+            var sectionIterator = nav.Select(@"configuration/configSections");
             if(sectionIterator.Count > 0)
             {
                 foreach (var p in DetermineValidSectionElements(configRegex,String.Empty, sectionIterator)) yield return p;
             }
 
-            XPathNodeIterator sectionGroupIterator = nav.Select(@"configuration/configSections/sectionGroup");
+            var sectionGroupIterator = nav.Select(@"configuration/configSections/sectionGroup");
             if(sectionGroupIterator.Count > 0)
             {
                 foreach (var p in DetermineValidSectionGroups(configRegex, sectionGroupIterator)) yield return p;
@@ -150,9 +156,9 @@ namespace CustomConfigurations
 
             while (sectionGroupIterator.MoveNext())
             {
-                string sectionGroupName = sectionGroupIterator.Current.GetAttribute("name", "");
+                var sectionGroupName = sectionGroupIterator.Current.GetAttribute("name", "");
 
-                string sectionGroupType = sectionGroupIterator.Current.GetAttribute("type", "");
+                var sectionGroupType = sectionGroupIterator.Current.GetAttribute("type", "");
                 if (!string.IsNullOrEmpty(sectionGroupType))
                 {
                     //have found a section handler that will use the configurationLoader to parse a custom config.
@@ -188,12 +194,12 @@ namespace CustomConfigurations
                 parentGroupIterator.MoveNext();
             }
 
-            XPathNodeIterator sectionIterator = parentGroupIterator.Current.Select(@"section");
+            var sectionIterator = parentGroupIterator.Current.Select(@"section");
 
             while (sectionIterator.MoveNext())
             {
-                string sectionName = sectionIterator.Current.GetAttribute("name", "");
-                string sectionType = sectionIterator.Current.GetAttribute("type", "");
+                var sectionName = sectionIterator.Current.GetAttribute("name", "");
+                var sectionType = sectionIterator.Current.GetAttribute("type", "");
                 if (!string.IsNullOrEmpty(sectionType))
                 {
                     //have found a section handler that will use the configurationLoader to parse a custom config.
@@ -234,8 +240,8 @@ namespace CustomConfigurations
                 }
                 else
                 {
-                    ConfigurationFileMap fileMap = new ConfigurationFileMap(pathToConfigFile); //Path to your config file
-                    Configuration configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
+                    var fileMap = new ConfigurationFileMap(pathToConfigFile); //Path to your config file
+                    var configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
                     ConfigSectionLoader = configuration.GetSection(configPath) as ConfigurationSectionLoader;
                 }
 
@@ -267,7 +273,7 @@ namespace CustomConfigurations
         {
             for (int i = 0; i < configGroupCollection.Count; i++)
             {
-                ConfigurationGroupElement configGroup = configGroupCollection[i];
+                var configGroup = configGroupCollection[i];
                 configGroup.Index = i;
 
                 SetIndexesForConfigGroupElementRecursively(configGroup);
@@ -285,7 +291,7 @@ namespace CustomConfigurations
             {
                 for (int i = 0; i < configGroup.InnerCollections.Count; i++)
                 {
-                    ConfigurationGroupElement innerConfigGroup = configGroup.InnerCollections[i];
+                    var innerConfigGroup = configGroup.InnerCollections[i];
                     innerConfigGroup.Index = i;
 
                     SetIndexesForConfigGroupElementRecursively(innerConfigGroup);
