@@ -7,6 +7,15 @@ namespace CustomConfigurations
     /// </summary>
     public class ConfigurationGroupCollection : ConfigurationElementCollection
     {
+        public void Clear()
+        {
+            BaseClear();
+        }
+
+        public void Add(ConfigurationGroupElement item)
+        {
+            BaseAdd(item);
+        }
         
         protected override ConfigurationElement CreateNewElement()
         {
@@ -36,6 +45,22 @@ namespace CustomConfigurations
         public new ConfigurationGroupElement this[string key]
         {
             get { return BaseGet(key) as ConfigurationGroupElement; }
+            set { base[key] = value; }
+        }
+
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+
+        public void Remove(ConfigurationGroupElement g)
+        {
+            BaseRemove(g.Name);
+        }
+
+        public void Remove(int index)
+        {
+            BaseRemoveAt(index);
         }
     }
 
@@ -53,22 +78,27 @@ namespace CustomConfigurations
         [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
         public string Name
         {
-            get
-            {
-                return this["name"].ToString();
-            }
+            get { return this["name"].ToString(); }
+            set { this["name"] = value; }
         }
-        
-        [ConfigurationProperty("ValueItems")]        
+
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+
+        [ConfigurationProperty("ValueItems")]
         public ValueItemElementCollection ValueItemCollection
         {
             get { return this["ValueItems"] as ValueItemElementCollection; }
+            set { this["ValueItems"] = value; }
         }
 
         [ConfigurationProperty("Collections", IsRequired = false)]
         public CollectionsGroupCollection InnerCollections
         {
             get { return this["Collections"] as CollectionsGroupCollection; }
+            set { this["Collections"] = value; }
         }
 
     }

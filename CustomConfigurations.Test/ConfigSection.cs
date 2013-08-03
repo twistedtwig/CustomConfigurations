@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CustomConfigurations.ObjectCreation;
+﻿using CustomConfigurations.ObjectCreation;
 using CustomConfigurations.Test.DomainModels;
 using NUnit.Framework;
 
@@ -358,8 +356,28 @@ namespace CustomConfigurations.Test
             Assert.IsFalse(values.IsInherited(globalKey1));
             Assert.IsFalse(values.IsInherited(childKey));
             Assert.IsTrue(values.IsInherited(globalKey2));
+        }
 
 
+        [Test]
+        public void TestCanTakeAnObjectAndCreateConfigSectionFromIt()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            DomainModel model = configSection.Create<DomainModel>(false);
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
+
+            var configSectionFromModel = CustomConfigurations.ConfigSection.CreateSection(model);
+
+            Assert.IsNotNull(configSectionFromModel);
+            Assert.AreEqual(configSection.Count, configSectionFromModel.Count);
+            Assert.AreEqual(configSection.IsChild, configSectionFromModel.IsChild);            
         }
     }
 }

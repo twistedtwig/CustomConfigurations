@@ -25,6 +25,23 @@ namespace CustomConfigurations
         {
             
         }
+
+        public void Save()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var section = config.GetSection("testsection2") as ConfigurationSectionLoader;
+
+            section.ConfigGroups.Clear();
+
+            foreach (ConfigurationGroupElement configGroup in this.ConfigGroups)
+            {
+                section.ConfigGroups.Add(configGroup);
+            }
+
+
+
+            config.Save(ConfigurationSaveMode.Full);
+        }
     }
 
 }

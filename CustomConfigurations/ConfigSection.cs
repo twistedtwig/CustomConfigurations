@@ -256,6 +256,10 @@ namespace CustomConfigurations
         {
             return CreateCreationSettingsCollection(valuesAsDictionary, null, onlySetPublicProperties);
         }
-        
+
+        public static ConfigSection CreateSection<T>(T model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

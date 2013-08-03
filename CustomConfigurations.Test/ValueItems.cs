@@ -53,56 +53,59 @@ namespace CustomConfigurations.Test
 //        }
 //
 //
-//        [Test]
-//        public void TestThatCanUpdateAValueInConfigFile()
-//        {
-//            const string newValueToUse ="mynewvalue";
-//            const string key = "key2";
-//
-//            //get a value                      
-//            string val = ClientSection[key];
-//            Assert.AreEqual("valueabc", val);
-//
-//            //update it
-//            ClientSection[key] = newValueToUse;
-//
-//            SaveConfigAndReloadVariables();
-//
-//            //assert that value is the new value.
-//            string newVal = ClientSection[key];
-//            Assert.AreEqual(newValueToUse, newVal);
-//        }
-//
-//
-//        [Test]
-//        public void TestThatCanAddNewValueToConfigCollection()
-//        {
-//            const string newValue = "bleh";
-//            const string key = "MyNewKey";
-//
-//            Assert.IsFalse(ClientSection.ContainsKey(key));
-//
-//            ClientSection[key] = newValue;
-//            Assert.IsTrue(ClientSection.ContainsKey(key));
-//
-//            //save the file, close it and reopen it to ensure it is still there.
-//            SaveConfigAndReloadVariables();
-//            Assert.IsTrue(ClientSection.ContainsKey(key));
-//
-//        }
-//
-//        [Test]
-//        public void TestThatCanRemoveValueItemFromConfigCollection()
-//        {
-//            const string key = "key2";
-//
-//            //get a value                    
-//            Assert.IsTrue(ClientSection.ContainsKey(key));
-//            string val = ClientSection[key];
-//            Assert.AreEqual("valueabc", val);
-//
-//            ClientSection.Remove(key);
-//            Assert.IsFalse(ClientSection.ContainsKey(key));
-//        }
+        [Test]
+        public void TestThatCanUpdateAValueItemInMemory()
+        {
+            int num = ClientSection.Count;
+            const string newValueToUse = "mynewvalue";
+            const string key = "key2";
+
+            //get a value                      
+            string val = ClientSection[key];
+            Assert.AreEqual("valueabc", val);
+
+            //update it
+            ClientSection[key] = newValueToUse;
+
+
+            //assert that value is the new value.
+            string newVal = ClientSection[key];
+            Assert.AreEqual(newValueToUse, newVal);
+
+            Assert.AreEqual(num, ClientSection.Count);
+        }
+
+
+        [Test]
+        public void TestThatCanAddNewValueItemToInMemoryCollection()
+        {
+            int num = ClientSection.Count;
+            const string newValue = "bleh";
+            const string key = "MyNewKey";
+
+            Assert.IsFalse(ClientSection.ContainsKey(key));
+
+            ClientSection[key] = newValue;
+            Assert.IsTrue(ClientSection.ContainsKey(key));
+
+            Assert.AreEqual(num + 1, ClientSection.Count);
+        }
+
+        [Test]
+        public void TestThatCanRemoveValueItemFromInMemoryCollection()
+        {
+            int num = ClientSection.Count;
+            const string key = "key2";
+
+            //get a value                    
+            Assert.IsTrue(ClientSection.ContainsKey(key));
+            string val = ClientSection[key];
+            Assert.AreEqual("valueabc", val);
+
+            ClientSection.Remove(key);
+            Assert.IsFalse(ClientSection.ContainsKey(key));
+
+            Assert.AreEqual(num - 1, ClientSection.Count);
+        }
     }
 }

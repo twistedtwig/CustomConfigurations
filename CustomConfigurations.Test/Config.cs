@@ -36,7 +36,7 @@ namespace CustomConfigurations.Test
         public void TestGivenAnAppPathCanConfigLoadAppSettings()
         {
             Assert.IsNotNull(Configloader);            
-            Assert.AreEqual(1, Configloader.Count);
+            Assert.AreEqual(2, Configloader.Count);
         }       
 
         [Test]

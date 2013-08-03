@@ -18,7 +18,7 @@ namespace CustomConfigurations.Test
         [Test]
         public void TestThatConfigLoaderFindsValueCollectionAndLoadsItCorrectly()
         {
-            Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
             ConfigurationGroupElement configGroup = ConfigurationLoader.ConfigGroups["client1"];
             Assert.IsNotNull(configGroup);
             Assert.AreEqual("client1", configGroup.Name);
@@ -48,9 +48,56 @@ namespace CustomConfigurations.Test
         [Test]
         public void TestWhenInvalidKeyUsedToFindConfigGroupNullObjectReturnedNoErrorThrown()
         {
-            Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
             ConfigurationGroupElement configGroup = ConfigurationLoader.ConfigGroups["clientXYZ"];
             Assert.IsNull(configGroup);
-        }        
+        }
+        
+        [Test]
+        public void TestCanAddConfigSection()
+        {
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
+
+            var element = new ConfigurationGroupElement();
+            element.Name = "mynewelement123";
+
+            ConfigurationLoader.ConfigGroups.Add(element);
+
+            Assert.AreEqual(3, ConfigurationLoader.ConfigGroups.Count);
+            var group = ConfigurationLoader.ConfigGroups[2];
+            Assert.IsNotNull(group);
+
+            Assert.AreEqual(element.Name, group.Name);
+
+        }
+
+        [Test]
+        public void TestCanRemoveConfigSectionByKey()
+        {
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
+            var group = ConfigurationLoader.ConfigGroups["client1"];
+
+            Assert.IsNotNull(group);
+            ConfigurationLoader.ConfigGroups.Remove(group);
+            Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
+        }
+
+        [Test]
+        public void TestCanRemoveConfigSectionByIndex()
+        {
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
+
+            ConfigurationLoader.ConfigGroups.Remove(0);
+            Assert.AreEqual(1, ConfigurationLoader.ConfigGroups.Count);
+        }
+
+        [Test]
+        public void TestCanClearRemoveAllSections()
+        {
+            Assert.AreEqual(2, ConfigurationLoader.ConfigGroups.Count);
+            ConfigurationLoader.ConfigGroups.Clear();
+            Assert.AreEqual(0, ConfigurationLoader.ConfigGroups.Count);
+
+        }
     }
 }

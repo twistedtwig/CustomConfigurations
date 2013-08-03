@@ -76,6 +76,11 @@ namespace CustomConfigurations
         {
             BaseRemoveAt(index);
         }
+        
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
     }
 
 
@@ -101,6 +106,11 @@ namespace CustomConfigurations
         {
             get { return this["value"].ToString(); }
             set { this["value"] = value; }
+        }
+        
+        public override bool IsReadOnly()
+        {
+            return false;
         }
     }
 }

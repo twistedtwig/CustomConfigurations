@@ -14,6 +14,12 @@ namespace CustomConfigurations
         public CollectionsGroupCollection ConfigGroups
         {
             get { return this["Collections"] as CollectionsGroupCollection; }
+            set { this["Collections"] = value; }
+        }
+
+        public override bool IsReadOnly()
+        {
+            return false;
         }
     }
 
@@ -52,6 +58,12 @@ namespace CustomConfigurations
         public new ConfigurationGroupElement this[string key]
         {
             get { return BaseGet(key) as ConfigurationGroupElement; }
+            set { base[key] = value; }
+        }
+
+        public override bool IsReadOnly()
+        {
+            return false;
         }
     }
 
