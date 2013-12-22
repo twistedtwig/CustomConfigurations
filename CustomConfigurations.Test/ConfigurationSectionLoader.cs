@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using NUnit.Framework;
 
 namespace CustomConfigurations.Test
@@ -11,7 +13,23 @@ namespace CustomConfigurations.Test
         [SetUp]
         public void Init()
         {
-            ConfigurationLoader = (CustomConfigurations.ConfigurationSectionLoader)System.Configuration.ConfigurationManager.GetSection("myCustomGroup/mysection");
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var exePath = Path.Combine(currentDirectory, "CustomConfigurations.Test.DLL");
+            var path = Path.Combine(currentDirectory, "CustomConfigurations.Test.DLL.Config");
+            var tempPath = path + "-temp";
+            
+            if (!File.Exists(tempPath))
+            {
+                File.Copy(path, tempPath);
+            }
+            else
+            {
+                File.Delete(path);
+                File.Move(tempPath, path);
+            }
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(exePath);
+            ConfigurationLoader = (CustomConfigurations.ConfigurationSectionLoader)config.GetSection("myCustomGroup/mysection");
             Assert.IsNotNull(ConfigurationLoader);
         }
 

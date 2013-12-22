@@ -359,25 +359,26 @@ namespace CustomConfigurations.Test
         }
 
 
-        [Test]
-        public void TestCanTakeAnObjectAndCreateConfigSectionFromIt()
-        {
-            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
-            Assert.IsNotNull(configSection);
-
-            DomainModel model = configSection.Create<DomainModel>(false);
-
-            Assert.AreEqual("model", model.Name);
-            Assert.IsTrue(model.CanExecute);
-            Assert.AreEqual("domain model template desciption field", model.Description);
-            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
-            Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
-
-            var configSectionFromModel = CustomConfigurations.ConfigSection.CreateSection(model);
-
-            Assert.IsNotNull(configSectionFromModel);
-            Assert.AreEqual(configSection.Count, configSectionFromModel.Count);
-            Assert.AreEqual(configSection.IsChild, configSectionFromModel.IsChild);            
-        }
+        //TODO this is not implemented yet!
+//        [Test]
+//        public void TestCanTakeAnObjectAndCreateConfigSectionFromIt()
+//        {
+//            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+//            Assert.IsNotNull(configSection);
+//
+//            DomainModel model = configSection.Create<DomainModel>(false);
+//
+//            Assert.AreEqual("model", model.Name);
+//            Assert.IsTrue(model.CanExecute);
+//            Assert.AreEqual("domain model template desciption field", model.Description);
+//            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+//            Assert.AreEqual(2, model.GetResultFromMySecretNumberPrivateSetter());
+//
+//            var configSectionFromModel = CustomConfigurations.ConfigSection.CreateSection(model);
+//
+//            Assert.IsNotNull(configSectionFromModel);
+//            Assert.AreEqual(configSection.Count, configSectionFromModel.Count);
+//            Assert.AreEqual(configSection.IsChild, configSectionFromModel.IsChild);            
+//        }
     }
 }
