@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <configSections>
-    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"  xdt:Transform="Insert" />
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"  xdt:Transform="Remove" xdt:Locator="Match(name)" />
   </configSections>
 
-  <CustomConfig xdt:Transform="Insert">
+  <CustomConfig xdt:Transform="Remove">
     <Configs>
       <ConfigurationGroup name="TestGroup">
         <ValueItems>

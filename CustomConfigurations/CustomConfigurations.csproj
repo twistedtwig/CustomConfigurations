@@ -59,9 +59,8 @@
     <Compile Include="ValueItems.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\config.xdt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Content\install.xdt" />
+    <None Include="Content\uninstall.xdt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
