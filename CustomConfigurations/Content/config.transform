@@ -1,7 +1,15 @@
 ﻿<configuration>
-  <system.webServer>
-    <modules>
-      <add name="MyNuModule" type="Sample.MyNuModule" />
-    </modules>
-    <system.webServer>
+  <configSections>
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"/>
+  </configSections>
 </configuration>
+
+<CustomConfig>
+    <Configs>
+      <ConfigurationGroup name="TestGroup">
+        <ValueItems>
+          <ValueItem key="Test" value="TValue" />
+        </ValueItems>
+      </ConfigurationGroup>      
+    </Configs>
+  </CustomConfig>
