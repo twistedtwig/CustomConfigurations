@@ -59,10 +59,10 @@
     <Compile Include="ValueItems.cs" />
   </ItemGroup>
   <ItemGroup>    
-    <Content Include="Content\web.config.install.xdt">
+    <Content Include="Content\config.install.xdt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\web.config.uninstall.xdt">
+    <Content Include="Content\config.uninstall.xdt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
