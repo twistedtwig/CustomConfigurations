@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <configSections xdt:Transform="Remove">
+  <configSections>
     <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" xdt:Transform="Remove" xdt:Locator="Match(name)" />
   </configSections>
 
