@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <configSections>
-    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"/>
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"  xdt:Transform="Insert" />
   </configSections>
 
   <CustomConfig xdt:Transform="Insert">

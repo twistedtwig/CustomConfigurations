@@ -14,7 +14,7 @@
  <files>
     <file src="CustomConfigurations\bin\Release\CustomConfigurations.dll" target="lib\net40" />
     <file src="CustomConfigurations\bin\Release\CustomConfigurations.pdb" target="lib\net40"  />       
-    <file src="CustomConfigurations\bin\Release\Content\config.transform" target="content\app.config.transform"/>
-    <file src="CustomConfigurations\bin\Release\Content\config.transform" target="content\web.config.transform"/>
+    <file src="CustomConfigurations\bin\Release\Content\config.xdt" target="content\app.config.transform"/>
+    <file src="CustomConfigurations\bin\Release\Content\config.xdt" target="content\web.config.transform"/>
   </files>
 </package>
