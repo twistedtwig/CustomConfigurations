@@ -59,7 +59,7 @@
     <Compile Include="ValueItems.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\config.transform">
+    <Content Include="Content\config.xdt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
