@@ -12,8 +12,8 @@
     <projectUrl>https://github.com/twistedtwig/CustomConfigurations</projectUrl>
   </metadata>
  <files>
-    <file src="CustomConfigurations\CustomConfigurations\bin\Release\CustomConfigurations.dll" target="lib\net40" />
-    <file src="CustomConfigurations\CustomConfigurations\bin\Release\CustomConfigurations.pdb" target="lib\net40"  />       
+    <file src="CustomConfigurations\bin\Release\CustomConfigurations.dll" target="lib\net40" />
+    <file src="CustomConfigurations\bin\Release\CustomConfigurations.pdb" target="lib\net40"  />       
     <file src="Content/config.transform" target="content\app.config.transform"/>
     <file src="Content/config.transform" target="content\web.config.transform"/>
   </files>
