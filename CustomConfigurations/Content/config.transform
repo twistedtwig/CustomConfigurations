@@ -3,7 +3,7 @@
     <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"/>
   </configSections>
 
-<CustomConfig>
+  <CustomConfig xdt:Transform="Insert">
     <Configs>
       <ConfigurationGroup name="TestGroup">
         <ValueItems>
