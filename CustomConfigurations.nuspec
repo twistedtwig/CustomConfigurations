@@ -5,7 +5,7 @@
     <authors>Jon Hawkins</authors>
     <owners>Jon Hawkins</owners>
     <id>CustomConfigurations</id>
-    <title>HoH - CustomConfigurations</title>
+    <title>HoH - Custom Configurations</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This project is designed to allow people to define configuration in the config file (or other) and have strongly typed models returned.</description>
     <copyright>Copyright Jon Hawkins 2013</copyright>
