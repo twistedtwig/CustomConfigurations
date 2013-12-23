@@ -2,7 +2,6 @@
   <configSections>
     <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"/>
   </configSections>
-</configuration>
 
 <CustomConfig>
     <Configs>
@@ -13,3 +12,5 @@
       </ConfigurationGroup>      
     </Configs>
   </CustomConfig>
+
+</configuration>
