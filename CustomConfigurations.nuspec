@@ -16,10 +16,5 @@
     <file src="CustomConfigurations\bin\Release\CustomConfigurations.pdb" target="lib\net40"  />       
 
     <file src="CustomConfigurations\bin\Release\Content\web.config.install.xdt" target="content\web.config.install.xdt" />
-
-    <file src="CustomConfigurations\bin\Release\Content\config.install.xdt" target="content\app.config.transform"/>
-    <file src="CustomConfigurations\bin\Release\Content\config.install.xdt" target="content\web.config.transform"/>
-    <file src="CustomConfigurations\bin\Release\Content\config.uninstall.xdt" target="content\app.config.transform"/>
-    <file src="CustomConfigurations\bin\Release\Content\config.uninstall.xdt" target="content\web.config.transform"/>
   </files>
 </package>

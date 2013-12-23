@@ -58,13 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueItems.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\config.install.xdt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\config.uninstall.xdt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+  <ItemGroup>    
     <Content Include="Content\web.config.install.xdt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
