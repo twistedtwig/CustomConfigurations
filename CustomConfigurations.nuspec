@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.00</version>
+    <authors>Jon Hawkins</authors>
+    <owners>Jon Hawkins</owners>
+    <id>CustomConfigurations</id>
+    <title>HoH - CustomConfigurations</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This project is designed to allow people to define configuration in the config file (or other) and have strongly typed models returned.</description>
+    <copyright>Copyright Jon Hawkins 2013</copyright>
+    <projectUrl>https://github.com/twistedtwig/CustomConfigurations</projectUrl>
+  </metadata>
+ <files>
+    <file src="CustomConfigurations\CustomConfigurations\bin\Release\CustomConfigurations.dll" target="lib\net40" />
+    <file src="CustomConfigurations\CustomConfigurations\bin\Release\CustomConfigurations.pdb" target="lib\net40"  />       
+    <file src="Content/config.transform" target="content\app.config.transform"/>
+    <file src="Content/config.transform" target="content\web.config.transform"/>
+  </files>
+</package>
