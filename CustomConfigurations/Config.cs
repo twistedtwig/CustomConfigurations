@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Web.Configuration;
 using System.Xml.XPath;
 
 namespace CustomConfigurations
@@ -94,32 +95,8 @@ namespace CustomConfigurations
         /// <returns></returns>
         private IEnumerable<string> DetermineConfigurationPath(string pathToConfigFile)
         {
-            var configFileLocation = String.Empty;            
-            if (!string.IsNullOrEmpty(pathToConfigFile))
-            {
-                configFileLocation = pathToConfigFile.Trim();
-            }
-            try
-            {
-                configFileLocation = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
-            }
-            catch { /*  tried to open as stand alone app  */ }
+            var configFileLocation = FindConfigFileLocation(pathToConfigFile);
 
-            if (!File.Exists(configFileLocation))
-            {
-                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.config");                
-            }
-
-            if (!File.Exists(configFileLocation))
-            {
-                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config");                
-            }
-                
-            if (!File.Exists(configFileLocation))
-            {
-                throw new FileNotFoundException(configFileLocation);
-            }
-            
             var fullApplicationName = typeof (ConfigurationSectionLoader).FullName;
             var fullApplicationAssembly = typeof(ConfigurationSectionLoader).Assembly.ToString().Substring(0, typeof(ConfigurationSectionLoader).Assembly.ToString().IndexOf(",", StringComparison.InvariantCultureIgnoreCase));
             var configLoaderRegexString = fullApplicationName + @",[\s]{0,1}" + fullApplicationAssembly;
@@ -139,6 +116,40 @@ namespace CustomConfigurations
             {
                 foreach (var p in DetermineValidSectionGroups(configRegex, sectionGroupIterator)) yield return p;
             }
+        }
+
+        private string FindConfigFileLocation(string pathToConfigFile)
+        {
+            var configFileLocation = String.Empty;
+            if (!string.IsNullOrEmpty(pathToConfigFile))
+            {
+                configFileLocation = pathToConfigFile.Trim();
+            }
+            try
+            {
+                configFileLocation = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            }
+            catch
+            {
+                /*  tried to open as stand alone app  */
+            }
+
+            if (!File.Exists(configFileLocation))
+            {
+                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.config");
+            }
+
+            if (!File.Exists(configFileLocation))
+            {
+                configFileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config");
+            }
+
+            if (!File.Exists(configFileLocation))
+            {
+                throw new FileNotFoundException(configFileLocation);
+            }
+
+            return configFileLocation;
         }
 
         /// <summary>
@@ -359,5 +370,107 @@ namespace CustomConfigurations
 //            //ConfigurationManager.RefreshSection("appSettings");
 //
 //        }
+
+
+
+        public void EncryptConfigurationSection()
+        {
+            var pathToConfig = FindConfigFileLocation("");
+            
+            foreach (var path in DetermineConfigurationPath(pathToConfig))
+            {
+                if (!string.IsNullOrEmpty(path.Trim()))
+                {
+                    EncryptConfigurationSection(pathToConfig, path);                    
+                }
+            }
+            
+        }
+
+        public void EncryptConfigurationSection(string sectionName)
+        {
+            EncryptConfigurationSection(FindConfigFileLocation(""), sectionName);                    
+        }
+
+        /// <summary>
+        /// This method is used to encrypt the particular section in the application config
+        /// </summary>
+        /// <param name="configPath">file path the configuration file.</param>
+        /// <param name="sectionName">Section to encrypt</param>
+        private void EncryptConfigurationSection(string configPath, string sectionName)
+        {            
+            var config = GetConfiguration(configPath);
+            var section = GetConfigurationSection(sectionName, config);
+
+            if (section != null && !section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+                config.Save();
+            }
+        }
+
+        public void DecryptConfigurationSection()
+        {
+            var pathToConfig = FindConfigFileLocation("");
+
+            foreach (var path in DetermineConfigurationPath(pathToConfig))
+            {
+                if (!string.IsNullOrEmpty(path.Trim()))
+                {
+                    DecryptConfigurationSection(pathToConfig, path);
+                }
+            }
+
+        }
+
+        public void DecryptConfigurationSection(string sectionName)
+        {
+            DecryptConfigurationSection(FindConfigFileLocation(""), sectionName);
+        }
+
+        /// <summary>
+        /// This method is used to decrypt the particular section of the application config
+        /// </summary>
+        /// <param name="configPath">file path the configuration file.</param>
+        /// <param name="sectionName">Section to encrypt</param>
+        public void DecryptConfigurationSection(string configPath, string sectionName)
+        {
+            var config =GetConfiguration(configPath);
+            var section = GetConfigurationSection(sectionName, config);
+
+            if (section != null && section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+        }
+
+
+        private ConfigurationSection GetConfigurationSection(string sectionName, Configuration config)
+        {
+            var section = config.GetSection(sectionName);
+            if (section == null)
+            {
+                Console.WriteLine("The '{0}' section was not found.", sectionName);
+            }
+            return section;
+        }
+
+
+        private Configuration GetConfiguration(string configPath)
+        {
+            Configuration config;
+            if (configPath.EndsWith("web.config"))
+            {
+                config = WebConfigurationManager.OpenWebConfiguration(configPath);
+            }
+            else
+            {
+                var p = configPath.Substring(0, configPath.Length - ".config".Length);
+                config = ConfigurationManager.OpenExeConfiguration(p);
+            }
+            return config;
+        }
+
     }
 }
