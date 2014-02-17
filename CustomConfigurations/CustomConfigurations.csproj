@@ -57,6 +57,7 @@
     <Compile Include="ObjectCreation\ObjectCreationSettingItem.cs" />
     <Compile Include="ObjectCreation\ObjectCreationSettingsCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TripleDESProtectedConfigurationProvider.cs" />
     <Compile Include="ValueItems.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -372,6 +372,12 @@ namespace CustomConfigurations
 //        }
 
 
+        public void CreateConfigKey()
+        {
+            var provider = new TripleDESProtectedConfigurationProvider();            
+            provider.CreateKey();
+        }
+
 
         public void EncryptConfigurationSection()
         {
@@ -402,11 +408,22 @@ namespace CustomConfigurations
             var config = GetConfiguration(configPath);
             var section = GetConfigurationSection(sectionName, config);
 
-            if (section != null && !section.SectionInformation.IsProtected)
+            string provider = "TripleDESProtectedConfigurationProvider";
+            if (section != null)
             {
-                section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
-                config.Save();
+                if (!section.SectionInformation.IsProtected)
+                {
+                    if (!section.ElementInformation.IsLocked)
+                    {
+                        // Protect the section.
+                        section.SectionInformation.ProtectSection(provider);
+
+                        section.SectionInformation.ForceSave = true;
+                        config.Save(ConfigurationSaveMode.Full);
+                    }
+                }
             }
+
         }
 
         public void DecryptConfigurationSection()
@@ -438,10 +455,18 @@ namespace CustomConfigurations
             var config =GetConfiguration(configPath);
             var section = GetConfigurationSection(sectionName, config);
 
-            if (section != null && section.SectionInformation.IsProtected)
+            if (section != null)
             {
-                section.SectionInformation.UnprotectSection();
-                config.Save();
+                if (section.SectionInformation.IsProtected)
+                {
+                    if (!section.ElementInformation.IsLocked)
+                    {
+                        section.SectionInformation.UnprotectSection();
+
+                        section.SectionInformation.ForceSave = true;
+                        config.Save(ConfigurationSaveMode.Full);
+                    }
+                }
             }
         }
 
