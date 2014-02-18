@@ -106,14 +106,14 @@ config.CreateConfigKey();
 
 There are two ways to encrypt the configuration.
 
-``C#
+```C#
 Config config = new Config();
 config.EncryptConfigurationSection();
 ```
 
 This will encrypt all custom config sections in the configuration file.
 
-``C#
+```C#
 Config config = new Config();
 config.EncryptConfigurationSection("sectionName");
 ```
