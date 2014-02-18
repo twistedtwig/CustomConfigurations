@@ -118,6 +118,16 @@ Config config = new Config();
 config.EncryptConfigurationSection("sectionName");
 ```
 
+To be able to do the encyption and decryption there is one addition to the configuration file:
+
+```xml
+  <configProtectedData>
+    <providers>
+      <add name="TripleDESProtectedConfigurationProvider" type="CustomConfigurations.TripleDESProtectedConfigurationProvider, CustomConfigurations" keyFilePath="configkey.txt" />
+    </providers>
+  </configProtectedData>
+```
+
 This will only encrypt the configuration section with the name "sectionName".
 
 Thanks
