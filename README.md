@@ -93,6 +93,33 @@ The console application "ExampleApp" shows the different ways the customConfigur
 * How to generate strongly typed objects automatically (ExampleApp.MoreComplexExamples.AutoGenerateModelsFromConfig)
 * How to map configuration settings keys to the strongly typed object that have different property names (ExampleApp.MoreComplexExamples.MappingFieldsAutoGen)
 
+
+Encrypting and decrypting
+-------------------------
+
+If required the whole configuration section can be encrypted.  The enryption can be used by multiple machines, (no machine key files used).  The encryption uses Triple-DES with a key file.  The first time it is to be used the key file needs to be generated.
+
+```C#
+Config config = new Config();
+config.CreateConfigKey();
+```
+
+There are two ways to encrypt the configuration.
+
+``C#
+Config config = new Config();
+config.EncryptConfigurationSection();
+```
+
+This will encrypt all custom config sections in the configuration file.
+
+``C#
+Config config = new Config();
+config.EncryptConfigurationSection("sectionName");
+```
+
+This will only encrypt the configuration section with the name "sectionName".
+
 Thanks
 
 -------------------------------------------------------------
