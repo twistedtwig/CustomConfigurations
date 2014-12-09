@@ -91,3 +91,29 @@ N.B. all config sections are case sensitive, be careful how you write the xml an
 --------------------------------------------------------------
 
 For more detailed information please visit: https://github.com/twistedtwig/CustomConfigurations
+
+
+-----
+
+If you get an error when trying to start the app complaining about "configuration data for the page is invalid." this is most likely because in the config file the conigSections element has not been placed directly below the configuration element.  I have not been able to figure out how to get the XDT to insert it directly below it if it is not there.  All you need to do is move 
+
+  <configSections>
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+  </configSections>
+
+So that the start of your config file looks like:
+
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=301879
+  -->
+<configuration>
+
+  <configSections>
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" />
+  </configSections>
+  <CustomConfig>
+
+
+-----
