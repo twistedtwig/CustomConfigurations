@@ -20,6 +20,69 @@ Then use the configuration loader to populate the values:
 MyAppSettings appSettings = new CustomConfigurations.Config().Create<MyAppSettings>();
 ```
 
+Lets give a simple strongly typed example, lets say we have the following configuration file:
+
+```xml
+<?xml version="1.0"?>
+<configuration>
+
+  <configSections>
+    <section name="domainModelTemplate" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations"/>
+  </configSections>
+
+  <domainModelTemplate>
+    <Configs>
+      <ConfigurationGroup name="model">
+        <ValueItems>
+          <ValueItem key="CanExecute" value="true"/>
+          <ValueItem key="Description" value="domain model template desciption field"/>
+          <ValueItem key="NumberUnits" value="5"/>
+          <ValueItem key="ModelType" value="TheirType"/>
+        </ValueItems>
+      </ConfigurationGroup>
+    </Configs>
+  </domainModelTemplate>
+
+<startup><supportedRuntime version="v2.0.50727"/></startup></configuration>
+```
+
+We want to load this model into memory:
+
+```C#
+    public class DomainModel
+    {
+        public string Name { get; set; }
+
+        public bool CanExecute { get; set; }
+        public string Description { get; set; }
+        public int NumberUnits { get; set; }
+        public DomainModelType ModelType { get; set; }        
+    }
+
+    public enum DomainModelType
+    {
+        MyType,
+        TheirType,
+        AnotherType,
+    }
+```
+
+We can create a configuration load to isolate the use of custom configuration and simply return a strongly typed object to your business logic:
+
+```C#
+    public static class ConfigurationLoader
+    {
+
+        public static DomainModel LoadDomainModelTemplate()
+        {
+            return new Config("domainModelTemplate")
+                .GetSection("model")
+                .Create<DomainModel>();
+        }
+    }
+```
+
+
 Multipe sections example
 ------------------------
 
@@ -73,11 +136,6 @@ Here is an example configuration file:
 
 ```C#
 CustomConfigurations.Config Configloader = new CustomConfigurations.Config("client2");
-```
-
-To access a value it would use the index of the key:
-```C#
-string myVal = Configloader["keya"];
 ```
 
 About the examples
