@@ -18,6 +18,9 @@
     <file src="CustomConfigurations\bin\Release\Content\config.install.xdt" target="content\web.config.install.xdt" />
     <file src="CustomConfigurations\bin\Release\Content\config.uninstall.xdt" target="content\web.config.uninstall.xdt" />
 
+    <file src="CustomConfigurations\bin\Release\Content\config.install.xdt" target="content\app.config.install.xdt" />
+    <file src="CustomConfigurations\bin\Release\Content\config.uninstall.xdt" target="content\app.config.uninstall.xdt" />
+
     <file src="readme.txt" target="" />
 
   </files>
