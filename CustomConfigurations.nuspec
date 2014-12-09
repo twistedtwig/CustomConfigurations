@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.00</version>
+    <version>$version$</version>
     <authors>Jon Hawkins</authors>
     <owners>Jon Hawkins</owners>
     <id>CustomConfigurations</id>
@@ -17,8 +17,6 @@
 
     <file src="CustomConfigurations\bin\Release\Content\config.install.xdt" target="content\web.config.install.xdt" />
     <file src="CustomConfigurations\bin\Release\Content\config.uninstall.xdt" target="content\web.config.uninstall.xdt" />
-
-    <file src="README.md" target="readme.txt" />
 
   </files>
 </package>
