@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <configSections xdt:Transform="InsertIfMissing">
-    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" xdt:Transform="Insert" />
+  <configSections xdt:Transform="InsertAfter(/configuration)">
+    <section name="CustomConfig" type="CustomConfigurations.ConfigurationSectionLoader, CustomConfigurations" xdt:Transform="InsertIfMissing" />
   </configSections>
 
   <configProtectedData  xdt:Transform="InsertIfMissing">
     <providers>
-      <add name="TripleDESProtectedConfigurationProvider" type="CustomConfigurations.TripleDESProtectedConfigurationProvider, CustomConfigurations" keyFilePath="configkey.txt" />
+      <add name="TripleDESProtectedConfigurationProvider" type="CustomConfigurations.TripleDESProtectedConfigurationProvider, CustomConfigurations" keyFilePath="configkey.txt" xdt:Transform="InsertIfMissing" />
     </providers>
   </configProtectedData>
 
