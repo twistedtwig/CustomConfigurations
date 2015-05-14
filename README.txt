@@ -67,7 +67,7 @@ We want to load this model into memory:
     }
 
 
-We can create a configuration load to isolate the use of custom configuration and simply return a strongly typed object to your business logic:
+We can create a configuration loader to isolate the use of custom configuration and simply return a strongly typed object to your business logic:
 
 
     public static class ConfigurationLoader
