@@ -45,18 +45,10 @@ namespace CustomConfigurations
         /// <exception cref="ArgumentException">error if section is null or empty string</exception>
         /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
         /// <param name="configurationPath">The xml path in the config file.</param>
-        public Config(string configurationPath) : this(string.Empty, configurationPath, true)
+        /// <param name="allowValueInheritance"> </param>
+        public Config(string configurationPath, bool allowValueInheritance = true) : this(string.Empty, configurationPath, allowValueInheritance)
         { }
 
-        /// <summary>
-        /// Constructor with the full configuration path given.
-        /// </summary>
-        /// <exception cref="ArgumentException">error if section is null or empty string</exception>
-        /// <exception cref="ApplicationException">error if fails to load given configuration section</exception>
-        /// <param name="configurationPath">The xml path in the config file.</param>
-        /// <param name="allowValueInheritance"> </param>
-        public Config(string configurationPath, bool allowValueInheritance) : this(string.Empty, configurationPath, allowValueInheritance)
-        { }
 
         public Config(string pathToConfigFile, string configurationPath, bool allowValueInheritance)
         {

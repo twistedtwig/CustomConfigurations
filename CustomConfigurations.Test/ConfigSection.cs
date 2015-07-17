@@ -358,6 +358,32 @@ namespace CustomConfigurations.Test
             Assert.IsTrue(values.IsInherited(globalKey2));
         }
 
+        [Test]
+        public void TestCanPopulateExistingObjectAndOverrideSomeValues()
+        {
+            CustomConfigurations.ConfigSection configSection = new CustomConfigurations.Config("TypedDataConfig").GetSection("model");
+            Assert.IsNotNull(configSection);
+
+            var model = configSection.Create<DomainModel>();
+
+            Assert.AreEqual("model", model.Name);
+            Assert.IsTrue(model.CanExecute);
+            Assert.AreEqual("domain model template desciption field", model.Description);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+
+            CustomConfigurations.ConfigSection subConfigSection = new CustomConfigurations.Config("SubTypedDataConfig").GetSection("subModel");
+            Assert.IsNotNull(subConfigSection);
+
+            subConfigSection.Populate(model);
+
+            Assert.AreEqual("subModel", model.Name);
+            Assert.IsFalse(model.CanExecute);
+            Assert.AreEqual("my description", model.Description);
+            Assert.AreEqual(DomainModelType.TheirType, model.ModelType);
+            Assert.AreEqual(int.MinValue, model.GetResultFromMySecretNumberPrivateSetter());
+        }
+
 
         //TODO this is not implemented yet!
 //        [Test]

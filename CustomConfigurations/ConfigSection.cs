@@ -257,6 +257,17 @@ namespace CustomConfigurations
             return CreateCreationSettingsCollection(valuesAsDictionary, null, onlySetPublicProperties);
         }
 
+        /// <summary>
+        /// Allows a model to have its values overriden with the given config section, only values that exist in the config section will override properties in the model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        public void Populate<T>(T model)
+        {
+            var settings = CreateCreationSettingsCollection(valuesAsDictionary, null, true);
+            ObjectCreationAndPopulationFactory.PopulateFieldsFromValuesItems(model, settings.GetValidPropertySettings(), settings.OnlySetPublicProperties);
+        }
+
         public static ConfigSection CreateSection<T>(T model)
         {
             throw new NotImplementedException();
